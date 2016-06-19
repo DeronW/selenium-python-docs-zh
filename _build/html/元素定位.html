@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>元素定位 &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>元素定位<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>我们有许多方法对页面的元素进行定位，你可以根据自己的需要选择最合适的一种。Selenium提供了下面的方法进行元素定位：
+* find_element_by_id
+* find_element_by_name
+* find_element_by_xpath
+* find_element_by_link_text
+* find_element_by_partial_link_text
+* find_element_by_tag_name
+* find_element_by_class_name
+* find_element_by_css_selector
+寻找多个元素（下列方法会返回一个list）：
+* find_elements_by_name
+* find_elements_by_xpath
+* find_elements_by_link_text
+* find_elements_by_partial_link_text
+* find_elements_by_tag_name
+* find_elements_by_class_name
+* find_elements_by_css_selector</p>
+<p>除了上面这些公有的方法，我们还有2个私有的方法来帮助页页面对象的定位。这两个方法就是`find_element`和`find_elements`:
+<a href="#id2"><span class="problematic" id="id3">``</span></a><a href="#id4"><span class="problematic" id="id5">`</span></a>python
+from selenium.webdriver.common.by import By</p>
+<p>driver.find_element(By.XPATH,&#8217;//button[text()=&#8221;Some Text&#8221;]&#8217;)
+driver.find_elements(By.XPATH,&#8217;//button&#8217;)
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">`By`类的可用属性如下：</span>
+<span class="pre">```python</span>
+<span class="pre">ID</span> <span class="pre">=</span> <span class="pre">&quot;id&quot;</span>
+<span class="pre">XPATH</span> <span class="pre">=</span> <span class="pre">&quot;xpath&quot;</span>
+<span class="pre">LINK_TEXT</span> <span class="pre">=</span> <span class="pre">&quot;link</span> <span class="pre">text&quot;</span>
+<span class="pre">PARTIAL_LINK_TEXT</span> <span class="pre">=</span> <span class="pre">&quot;partial</span> <span class="pre">link</span> <span class="pre">text&quot;</span>
+<span class="pre">NAME</span> <span class="pre">=</span> <span class="pre">&quot;name&quot;</span>
+<span class="pre">TAG_NAME</span> <span class="pre">=</span> <span class="pre">&quot;tag_name&quot;</span>
+<span class="pre">CLASS_NAME</span> <span class="pre">=</span> <span class="pre">&quot;class</span> <span class="pre">name&quot;</span>
+<span class="pre">CSS_SELECTOR</span> <span class="pre">=</span> <span class="pre">&quot;css</span> <span class="pre">selector&quot;</span>
+<span class="pre">`</span></code></p>
+<p>## 根据Id定位
+如果你知道元素的`id`属性，那么就使用id定位吧。在id定位里，会返回第一个id属性匹配的元素，如果没有元素匹配，会抛出`NoSuchElementException`异常。</p>
+<p>举个例子，我们来看一个页面:
+<a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>html
+&lt;html&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;body&gt;</dt>
+<dd><dl class="first docutils">
+<dt>&lt;form id=&#8221;loginForm&#8221;&gt;</dt>
+<dd>&lt;input name=&#8221;username&#8221; type=&#8221;text&#8221; /&gt;
+&lt;input name=&#8221;password&#8221; type=&#8221;password&#8221; /&gt;
+&lt;input name=&#8221;continue&#8221; type=&#8221;submit&#8221; value=&#8221;Login&#8221; /&gt;</dd>
+</dl>
+<p class="last">&lt;/form&gt;</p>
+</dd>
+</dl>
+<p>&lt;/body&gt;</p>
+</div></blockquote>
+<p>&lt;html&gt;
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">我们可以这样定位表单元素form:</span>
+<span class="pre">```python</span>
+<span class="pre">login_form</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_id('loginForm')</span>
+<span class="pre">`</span></code></p>
+<p>## 根据 Name 定位
+如果你知道元素的`name`属性，那么就用这个定位吧。在name定位里，会返回第一个name属性匹配的元素，如果没有元素匹配，会抛出`NoSuchElementException`异常。</p>
+<p>举例我们再来看一个页面：
+<a href="#id10"><span class="problematic" id="id11">``</span></a><a href="#id12"><span class="problematic" id="id13">`</span></a>python
+&lt;html&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;body&gt;</dt>
+<dd><dl class="first docutils">
+<dt>&lt;form id=&#8221;loginForm&#8221;&gt;</dt>
+<dd>&lt;input name=&#8221;username&#8221; type=&#8221;text&#8221; /&gt;
+&lt;input name=&#8221;password&#8221; type=&#8221;password&#8221; /&gt;
+&lt;input name=&#8221;continue&#8221; type=&#8221;submit&#8221; value=&#8221;Login&#8221; /&gt;
+&lt;input name=&#8221;continue&#8221; type=&#8221;button&#8221; value=&#8221;Clear&#8221; /&gt;</dd>
+</dl>
+<p class="last">&lt;/form&gt;</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>&lt;/body&gt;
+&lt;html&gt;
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">username</span> <span class="pre">和</span> <span class="pre">password元素</span> <span class="pre">可以这样定位：</span>
+<span class="pre">```python</span>
+<span class="pre">username</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_name('username')</span>
+<span class="pre">password</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_name('password')</span>
+<span class="pre">`</span></code>
+下面这个操作会返回Login按钮，因为它在Clear按钮的前面：
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">continue</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_name('continue')</span>
+<span class="pre">`</span></code></p>
+<p>### XPath定位
+XPath是用来定位XML文档节点的语言。不过HTML可以看成是XML(XHTML)的一种实现。Selenium用户可以使用这个强力的语言来瞄准Web应用的元素。
+XPath延伸了用id或者name属性来定位的单一方法，开创了许多可能性，例如定位页面的第三个复选框</p>
+<p>用XPath的主要理由之一，就是你想定位的元素没有合适的id或者name属性的时候，你可以用XPath来对元素进行绝对定位(不推荐)或者把这个元素和另外一个有确定id或者name的元素关联起来（即相对定位）。XPath定位器也可以用来找出那些具有id,name以外属性的元素。</p>
+<p>绝对的XPath定位包含了从HTML根节点起的所有元素，并且一些轻微的改变就会失效。而用id或者name属性来找到一个靠近的元素(比较理想的是父元素)，这样你就可以依靠他们的相对关系来确定目标元素的位置。这种情况改变的可能就小了很多了，我们写的测试程序也会更可靠。</p>
+<p>再来看一个实例：
+<a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">`</span></a>html
+&lt;html&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;body&gt;</dt>
+<dd><dl class="first docutils">
+<dt>&lt;form id=&#8221;loginForm&#8221;&gt;</dt>
+<dd>&lt;input name=&#8221;username&#8221; type=&#8221;text&#8221; /&gt;
+&lt;input name=&#8221;password&#8221; type=&#8221;password&#8221; /&gt;
+&lt;input name=&#8221;continue&#8221; type=&#8221;submit&#8221; value=&#8221;Login&#8221; /&gt;
+&lt;input name=&#8221;continue&#8221; type=&#8221;button&#8221; value=&#8221;Clear&#8221; /&gt;</dd>
+</dl>
+<p class="last">&lt;/form&gt;</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>&lt;/body&gt;
+&lt;html&gt;
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">form元素可以这样定位：</span>
+<span class="pre">```python</span>
+<span class="pre">login_form</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;/html/body/form[1]&quot;)</span>
+<span class="pre">login_form</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;//form[1]&quot;)</span>
+<span class="pre">login_form</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;//form[&#64;id='loginForm']&quot;)</span>
+<span class="pre">`</span></code>
+(译者注:这里下标看起来应该是从1开始的)</p>
+<ol class="arabic simple">
+<li>绝对路径（如果HTML有细微的改变就会失效）</li>
+<li>HTML的第一个form元素</li>
+<li>id属性为&#8217;loginForm&#8217;的form元素</li>
+</ol>
+<p>username元素可以这样定位：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">username</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;//from[input/&#64;name='username']&quot;)</span>
+<span class="pre">username</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;//form[&#64;id='loginForm']/input[1]&quot;)</span>
+<span class="pre">username</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;//input[&#64;name='username']&quot;)</span>
+<span class="pre">`</span></code></p>
+<ol class="arabic simple">
+<li>第一个form元素的 name属性是&#8217;username&#8217;的input子元素</li>
+<li>id属性为&#8217;loginForm&#8217;的form元素的第一个input子元素</li>
+<li>name属性为&#8217;username&#8217;的第一个input元素</li>
+</ol>
+<p>&#8216;clear&#8217;按钮可以这样定位：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">clear_button</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;//input[&#64;name='continue'][&#64;type='button']&quot;)</span>
+<span class="pre">clear_button</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_xpath(&quot;//form[&#64;id='loginForm']/input[4]&quot;)</span>
+<span class="pre">`</span></code></p>
+<ol class="arabic simple">
+<li>type属性为&#8217;button&#8217;,name属性为&#8217;continue&#8217;的第一个input元素</li>
+<li>id为&#8217;loginForm&#8217;的表单的第四个input子元素</li>
+</ol>
+<p>这些例子只覆盖了一些基本的使用情况，如果想学习更具体的，推荐下面这些地方：
+* [W3School XPath Tutorial](<a class="reference external" href="http://www.w3schools.com/xsl/xpath_intro.asp">http://www.w3schools.com/xsl/xpath_intro.asp</a>)
+* [W3C XPath Recommendation](<a class="reference external" href="http://www.w3.org/TR/xpath">http://www.w3.org/TR/xpath</a>)
+* [XPath Tutorial](<a class="reference external" href="http://www.zvon.org/comp/r/tut-XPath_1.html">http://www.zvon.org/comp/r/tut-XPath_1.html</a>)</p>
+<p>还有几个很有用的插件可以帮助我们测试：
+* [XPath Checker](<a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/1095?id=1095">https://addons.mozilla.org/en-US/firefox/addon/1095?id=1095</a>) (Firefox浏览器)提供XPath的建议，并且可以测试XPath的结果
+* [Firebug](<a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/1843">https://addons.mozilla.org/en-US/firefox/addon/1843</a>) 提供XPath的建议只是这个插件很有用的功能之一
+* [XPath Helper](<a class="reference external" href="https://chrome.google.com/webstore/detail/hgimnogjllphhhkhlmebbmlgjoejdpjl">https://chrome.google.com/webstore/detail/hgimnogjllphhhkhlmebbmlgjoejdpjl</a>) Google Chrome浏览器</p>
+<p>## 用链接文本定位超链接
+如果你知道一个锚标签使用了什么文本，那么就使用这种方法。在超链接定位里，会返回第一个文本属性匹配的链接，如果没有元素匹配，会抛出`NoSuchElementException`异常。</p>
+<p>实例：
+<a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a>html
+&lt;html&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;body&gt;</dt>
+<dd>&lt;p&gt;Are you sure you want to do this?&lt;/p&gt;
+&lt;a href=&#8221;continue.html&#8221;&gt;Continue&lt;/a&gt;
+&lt;a href=&#8221;cancel.html&#8221;&gt;Cancel&lt;/a&gt;</dd>
+</dl>
+</div></blockquote>
+<p>&lt;/body&gt;
+&lt;html&gt;
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">可以这样定位</span> <span class="pre">continue.html链接：</span>
+<span class="pre">```python</span>
+<span class="pre">continue_link</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_link_text('Continue')</span>
+<span class="pre">continue_link</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_partial_link_text('Conti')</span>
+<span class="pre">`</span></code>
+(waiting注：<a href="#id22"><span class="problematic" id="id23">`</span></a>find_element_by_partial_link_text`使用的**应该**是子串匹配，只要输入自字符串即可匹配，读者最好自行测试)</p>
+<p>## 标签名定位
+知道元素标签名就使用这个定位，如果没有元素匹配，会抛出`NoSuchElementException`异常。</p>
+<p>实例：
+<a href="#id24"><span class="problematic" id="id25">``</span></a><a href="#id26"><span class="problematic" id="id27">`</span></a>html
+&lt;html&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;body&gt;</dt>
+<dd>&lt;h1&gt;Welcome&lt;/h1&gt;
+&lt;p&gt;Site content goes here.&lt;/p&gt;</dd>
+</dl>
+</div></blockquote>
+<p>&lt;/body&gt;
+&lt;html&gt;
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">可以这样定位标题元素(h1):</span>
+<span class="pre">```python</span>
+<span class="pre">heading1</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_tag_name('h1')</span>
+<span class="pre">`</span></code></p>
+<p>## class定位
+知道class就使用这个定位，只返回匹配的第一个，无元素匹配，会抛出`NoSuchElementException`异常。</p>
+<p>实例：
+<a href="#id28"><span class="problematic" id="id29">``</span></a><a href="#id30"><span class="problematic" id="id31">`</span></a>html
+&lt;html&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;body&gt;</dt>
+<dd>&lt;p class=&#8221;content&#8221;&gt;Site content goes here.&lt;/p&gt;</dd>
+</dl>
+</div></blockquote>
+<p>&lt;/body&gt;
+&lt;html&gt;
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">定位`p`元素:</span>
+<span class="pre">```python</span>
+<span class="pre">content</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_class_name('content')</span>
+<span class="pre">`</span></code></p>
+<p>## css选择器定位
+如果你能用css选择器的语法来表述一个元素，那么就选这个，只返回匹配的第一个，无元素匹配，会抛出`NoSuchElementException`异常。</p>
+<p>实例：
+<a href="#id32"><span class="problematic" id="id33">``</span></a><a href="#id34"><span class="problematic" id="id35">`</span></a>html
+&lt;html&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;body&gt;</dt>
+<dd>&lt;p class=&#8221;content&#8221;&gt;Site content goes here.&lt;/p&gt;</dd>
+</dl>
+</div></blockquote>
+<p>&lt;/body&gt;
+&lt;html&gt;
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">定位`p`元素：</span>
+<span class="pre">```python</span>
+<span class="pre">content</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_css_selector('p.content')</span>
+<span class="pre">`</span></code></p>
+<p>关于 CSS选择器，[Sauce 实验室有份很好的文档](<a class="reference external" href="http://saucelabs.com/resources/selenium/css-selectors">http://saucelabs.com/resources/selenium/css-selectors</a>)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/元素定位.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/元素定位.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

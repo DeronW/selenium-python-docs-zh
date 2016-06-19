@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Firefox WebDriver &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="firefox-webdriver">
+<h1>Firefox WebDriver<a class="headerlink" href="#firefox-webdriver" title="永久链接至标题">¶</a></h1>
+<p>&gt;class selenium.webdriver.firefox.webdriver.WebDriver(firefox_profile=None, firefox_binary=None, timeout=30, capabilities=None, proxy=None, executable_path=&#8217;wires&#8217;)</p>
+<p>&gt;quit()</p>
+<p>退出驱动，关闭所有关联的窗口</p>
+<p>&gt;NATIVE_EVENTS_ALLOWED = True</p>
+<p>&gt;firefox_profile</p>
+<p># Chrome WebDriver</p>
+<p>&gt;class selenium.webdriver.chrome.webdriver.WebDriver(executable_path=&#8217;chromedriver&#8217;, port=0, chrome_options=None, service_args=None, desired_capabilities=None, service_log_path=None)</p>
+<p>控制 ChromeDriver 并且允许你驱动浏览器</p>
+<p>你需要先下载ChromeDriver的[可执行驱动](<a class="reference external" href="http://chromedriver.storage.googleapis.com/index.html">http://chromedriver.storage.googleapis.com/index.html</a>)</p>
+<p>&gt;create_options()</p>
+<p>&gt;launch_app(id)</p>
+<p>以特定的id 启动 Chrome</p>
+<p>&gt;quit()</p>
+<p>关闭浏览器，关闭开始时启动的ChromeDriver</p>
+<p># Remote WebDriver</p>
+<p>&gt;class selenium.webdriver.remote.webdriver.WebDriver(command_executor=&#8217;<a class="reference external" href="http://127.0.0.1:4444/wd/hub">http://127.0.0.1:4444/wd/hub</a>&#8216;, desired_capabilities=None, browser_profile=None, proxy=None, keep_alive=False)</p>
+<p>通过对远程服务器发送命令来控制浏览器。远程的服务器需要运行[这里](<a class="reference external" href="https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol">https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol</a>)定义的WebDriver wire 协议</p>
+<p>属性：
+* session_id - WebDriver控制，浏览器会话产生的一个String ID
+* capabilities - 返回浏览器会话的可用功能dict，有关远程服务区，请看[<a class="reference external" href="https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities](https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities">https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities](https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities</a>)
+* command_executor - remote_connection.RemoteConnection 对象，用来执行命令
+* error_handler - errorhandler.ErrorHandler对象，捕获错误</p>
+<p>&gt;add_cookie(cookie_dict) - 给当前会话加cookie</p>
+<p>参数：
+* cookie_dict:dict对象，需要指定键`name`和`value`，可选的键有:<cite>path</cite>,`domain`,`secure`,`expiry`</p>
+<p>用法：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.add_cookie({'name':'foo','value':'bar'})</span>
+<span class="pre">driver.add_cookie({'name':'foo','value':'bar','path':'/'})</span>
+<span class="pre">driver.add_cookie({'name':'foo','value':'bar','path':'/','secure':True})</span>
+<span class="pre">`</span></code></p>
+<p>&gt;back() - 在浏览历史中回退一步</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.back()</span>
+<span class="pre">`</span></code></p>
+<p>&gt;close() - 关闭当前窗口</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.close()</span>
+<span class="pre">`</span></code></p>
+<p>&gt;create_web_element(element_id) - 以指定的元素id创建一个新web元素</p>
+<p>&gt;delete_all_cookies() - 删除当前会话的所有cookie</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.delete_all_cookies()</span>
+<span class="pre">`</span></code></p>
+<p>&gt;delete_cookie(name) - 删除一个指定的cookie</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.delete_cookie('my_cookie')</span>
+<span class="pre">`</span></code></p>
+<p>&gt;execute(driver_command, params=None)</p>
+<p>给 command.CommandExecutor 发送一个要执行的命令</p>
+<p>参数：
+* driver_command:要执行的命令名（字符串）
+* params:命令的参数dict</p>
+<p>返回：命令的JSON返回会加载到一个dict对象</p>
+<p>&gt;execute_async_script(script,*args)</p>
+<p>在当前的窗口/框架里异步执行Javascript</p>
+<p>参数：
+* script:要执行的js
+* *args:js的任意合适的参数</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.execute_async_script('document.title')</span>
+<span class="pre">`</span></code>
+（这样也算一个例子？参数呢？）</p>
+<p>(find_element_*方法，自行参看[原文档](<a class="reference external" href="http://selenium-python.readthedocs.org/api.html#module-selenium.webdriver.remote.webdriver">http://selenium-python.readthedocs.org/api.html#module-selenium.webdriver.remote.webdriver</a>))</p>
+<p>&gt;forward() - 浏览历史里前进一步</p>
+<p>&gt;get(url) - 用当前的浏览器session加载一个web页面</p>
+<p>&gt;get_cookie(name) - 返回一个指定的cookie，不存在返回`None`</p>
+<p>&gt;get_cookies() - 返回一组dict,相当于当前会话的可用cookie</p>
+<p>&gt;get_log(log_type) - 获取指定类型的日志</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`</span>
+<span class="pre">driver.get_log('browser')</span>
+<span class="pre">driver.get_log('driver')</span>
+<span class="pre">driver.get_log('client')</span>
+<span class="pre">driver.get_log('server')</span>
+<span class="pre">`</span></code></p>
+<p>&gt;get_screenshot_as_base64() - 获取当前页面的截图的base64编码字符串，当页面嵌入了图片时这个方法很有用。</p>
+<p>&gt;get_screenshot_as_file(filename) - 获取当前页面截图，如果有任何 IOError则返回False,正常返回True,文件名记得使用完整的路径</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.get_screenshot_as_file('/Screenshots/foo.png/')</span>
+<span class="pre">`</span></code></p>
+<p>&gt;get_screenshot_as_png - 获取当前窗口截图的二进制数据</p>
+<p>&gt;get_window_position(windowHandle=&#8217;current&#8217;) - 获取当前窗口的x,y位置</p>
+<p>&gt;get_window_size(windowHandle=&#8217;current&#8217;) - 获取当前窗口的宽高(width,height)</p>
+<p>&gt;implicitly_wait(time_to_wait) - 设置一个隐式的等待时间，等待一个元素被发现或者一个命令的完成。</p>
+<p>在每次会话里，这个方法只需要被调用一次。超时后要调用 <cite>execute_async_script</cite>，请参看 <cite>set_script_timeout</cite></p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.implicitly_wait(30)</span>
+<span class="pre">`</span></code></p>
+<p>&gt;maximize_window() - 将webdriver正在使用的窗口最大化</p>
+<p>&gt;quit() 退出驱动并关闭所有关联窗口</p>
+<p>&gt;refresh() - 刷新当前页面</p>
+<p>&gt;set_page_load_timeout(time_to_wait) - 给载入页面设置一个超时时间，在抛出错误之前会等待到加载完成</p>
+<p>&gt;set_script_timeout(time_to_wait) - 在一个 <a href="#id1"><span class="problematic" id="id2">`</span></a>execute_async_script`调用期间，设置脚本等待的时间</p>
+<p>&gt;set_window_position(x,y,windowHandle=&#8217;current&#8217;) - 给页面设置x,y位置</p>
+<p>&gt;set_window_size(width,height,windowHandle=&#8217;current&#8217;) - 给页面设置宽高</p>
+<p>&gt;start_client() - 在新会话开启之前调用，这个方法可以重载来定制启动行为</p>
+<p>&gt;start_session(desired_capabilities, browser_profile=None) - 以期望的性能来创建一个新会话</p>
+<p>参数：
+* browser_name - 要请求的浏览器的名字
+* version - 要请求的浏览器版本
+* platform - 浏览器平台
+* javascript_enabled - 新会话是否支持js
+* browser_profile - 仅在请求Firefox浏览器时使用，selenium.webdriver.firefox.firefox_profile.FirefoxProfile 对象对象</p>
+<p>&gt;stop_client() - 执行一个退出命令时调用。这个方法可以重写，自己定制关闭时的行为</p>
+<p>&gt;switch_to_active_element() - 不推荐使用 driver.switch_to.active_element</p>
+<p>&gt;switch_to_alert() - 不推荐使用 driver.switch_to.alert</p>
+<p>&gt;switch_to_default_content() - 不推荐使用 driver.switch_to.default_content</p>
+<p>&gt;switch_to_frame(frame_reference) - 不推荐使用 driver.switch_to.frame</p>
+<p>&gt;switch_to_window(window_name) - 不推荐使用 driver.switch_to.window</p>
+<p>&gt;application_cache - 返回一个 ApplicationCache 对象 来和 浏览器应用缓存交互</p>
+<p>&gt;current_url - 当前页的url</p>
+<p>&gt;current_window_handle - 当前窗口的句柄</p>
+<p>&gt;desired_capabilities - 返回当前驱动正在使用的 &#8216;期望性能&#8217;</p>
+<p>&gt;file_detector</p>
+<p>&gt;log_types - 返回可用的日志类型list</p>
+<p>&gt;mobile</p>
+<p>&gt;name - 返回当前实例的底层浏览器名</p>
+<p>&gt;orientation - 获取当前设备的适应情况</p>
+<p>&gt;page_source - 获取当前页面的来源</p>
+<p>&gt;switch_to</p>
+<p>&gt;title - 当前页面的标题</p>
+<p>&gt;window_handles - 返回当前会话内所有窗口的资源句柄</p>
+<p># 页面元素</p>
+<p>&gt;class selenium.webdriver.remote.webelement.WebElement(parent,id_,w3c=False)</p>
+<p>代表一个DOM元素。通常所有和文档互动的有趣操作都要通过这个接口执行。</p>
+<p>所有的方法调用都会做一个 &#8216;新鲜检查&#8217; 来确认引用的元素仍然可用,这本质上确定了这个元素是否还与DOM相连。如果检测失败，会抛出
+<a href="#id3"><span class="problematic" id="id4">`</span></a>StaleEleementReferenceException`异常，并且下面的所有对这个接口的调用都会失败</p>
+<p>(拥有find_element_by_*所有方法，请参看[此处](<a class="reference external" href="http://selenium-python.readthedocs.org/api.html#module-selenium.webdriver.remote.webelement">http://selenium-python.readthedocs.org/api.html#module-selenium.webdriver.remote.webelement</a>))</p>
+<p>&gt;get_attribute(name) - 返回元素指定的属性</p>
+<p>这个方法首先会尝试返回元素指定的属性，如果属性不存在，它会返回和属性名相同的字符串，如果没有属性是这个名字，返回`None`。
+被认为是真假的值会返回布尔类型，其他所有的非`None`值都会以字符串的形式返回。属性不存在，返回`None`</p>
+<p>例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">#</span> <span class="pre">Check</span> <span class="pre">if</span> <span class="pre">the</span> <span class="pre">&quot;active&quot;</span> <span class="pre">CSS</span> <span class="pre">class</span> <span class="pre">is</span> <span class="pre">applied</span> <span class="pre">to</span> <span class="pre">en</span> <span class="pre">element</span>
+<span class="pre">is_active</span> <span class="pre">=</span> <span class="pre">&quot;active&quot;</span> <span class="pre">in</span> <span class="pre">target_element.get_attribute(&quot;class&quot;)</span>
+<span class="pre">`</span></code></p>
+<p>&gt;is_displayed() - 元素对用户是否可见</p>
+<p>&gt;is_enabled() - 元素是否可用</p>
+<p>&gt;is_selected() - 元素是否被选中,可用来检测单选或者复选按钮是否被选中</p>
+<p>&gt;screenshot(filename) - 获取当前元素的截图，有IOError会返回`False`,文件名要包含完整路径</p>
+<p>&gt;send_keys(<a href="#id5"><span class="problematic" id="id6">*</span></a>value) - 模拟向元素输入</p>
+<p>使用这个方法发送简单的按键时间或者填充表单字段：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">form_textfiled</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_name(&quot;username&quot;)</span>
+<span class="pre">form_textfiled.send_keys(&quot;admin&quot;)</span>
+<span class="pre">`</span></code>
+这个方法还可以用来设置文件：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">file_input</span> <span class="pre">=</span> <span class="pre">driver.find_element_by_name('profilePic')</span>
+<span class="pre">file_input.send_keys('path/to/profilepic.gif')</span>
+<span class="pre">`</span></code></p>
+<p>&gt;submit() - 提交表单</p>
+<p>&gt;value_of_css_property(property_name) - CSS属性的值</p>
+<p>&gt;id - selenium使用的内部ID</p>
+<p>这个主要是内部使用，简单的使用案例是用来做类似于检测两个元素是否关联到相同的元素上，可以用`==`来比较：
+<a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a>python
+if element1 == element2:</p>
+<blockquote>
+<div>print(&#8220;These 2 are equal&#8221;)</div></blockquote>
+<p><a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a></p>
+<p>&gt;location - 元素在可渲染的画布上的位置</p>
+<p>&gt;location_once_scrolled_into_view</p>
+<p><em>这个属性改变不会发出警告</em>，用这个来检查元素在屏幕的位置以方便我们点击它，这个方法可能造成元素滚动到视图里。
+返回屏幕左上角的位置，元素不可见返回`None`</p>
+<p>&gt;parent - WebDriver实例的内部引用，元素是从哪里发现的</p>
+<p>&gt;rect - 元素尺寸和位置的dict</p>
+<p>&gt;screenshot_as_base64 - 当前元素截图的base64编码字符串</p>
+<p>&gt;screenshot_as_png - 当前元素截图的二进制数据</p>
+<p>&gt;size - 元素的尺寸</p>
+<p>&gt;tag_name - 元素的标签名</p>
+<p>&gt;text - 元素的文本</p>
+<p># UI支持</p>
+<p>&gt;class selenium.webdriver.support.select.Select(webelement)</p>
+<p>&gt;deselect_all() - 清除所有的选中输入。仅当选择项支持多选的时候可用，如果不支持多选会抛出`NotImplementedError`。</p>
+<p>&gt;deselect_by_index(index) - 取消指定索引的选项的选中。这个方法会检查`index`属性，而不仅仅是计数</p>
+<p>&gt;deselect_by_value(value) - 取消所有选项的值匹配的选中状态。</p>
+<p>意思就是，当给出一个&#8217;foo&#8217;值时，会取消选中一个类似这样的选项：
+<code class="docutils literal"><span class="pre">`html</span>
+<span class="pre">&lt;option</span> <span class="pre">value=&quot;foo&quot;&gt;Bar&lt;/option&gt;</span>
+<span class="pre">`</span></code></p>
+<p>&gt;deselect_by_visible_text(text) - 取消选中所有文本匹配的选项</p>
+<p>给出&#8217;Bar&#8217;时，匹配：
+<code class="docutils literal"><span class="pre">`html</span>
+<span class="pre">&lt;option</span> <span class="pre">value=&quot;foo&quot;&gt;Bar&lt;/option&gt;</span>
+<span class="pre">`</span></code></p>
+<p>&gt;select_by_index(index)</p>
+<p>&gt;select_by_value(value)</p>
+<p>&gt;select_by_visible_text(text)</p>
+<p>上述三个和取消选中用法一样，操作由取选变成选中</p>
+<p>&gt;all_selected_options - 返回这个选择标签的所有选中选项list</p>
+<p>&gt;first_selected_option - 选择标签的的第一个选中项(或者一个正常选择框的当前选中项)</p>
+<p>&gt;options - 选择标签的所有选项list</p>
+<p>&gt;class selenium.webdriver.support.wait.WebDriverWait(driver, timeout, poll_frequency=0.5, ignored_exceptions=None)</p>
+<p>&gt;until(method, message=&#8217;&#8216;)</p>
+<p>调用驱动提供的方法名当参数，直到方法返回值 不是 <cite>False</cite></p>
+<p>&gt;until_not(method, message=&#8217;&#8216;)</p>
+<p>调用驱动提供的方法名当参数，直到方法返回值 是 <cite>False</cite></p>
+<p># 颜色支持</p>
+<p>&gt;class selenium.webdriver.support.color.Color(red,green,blue,alpha=1)</p>
+<p>颜色变换支持类：
+<a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">`</span></a>python
+from selenium.webdriver.support.color import Color</p>
+<p>print(Color.from_string(&#8216;#00fff33&#8217;).rgba)
+print(Color.from_string(&#8216;rgb(1,255,3)&#8217;).hex)
+print(Color.from_string(&#8216;blue&#8217;).rgba)
+<a href="#id19"><span class="problematic" id="id20">``</span></a><a href="#id21"><span class="problematic" id="id22">`</span></a></p>
+<p>&gt;_static_ from_string(_str_)</p>
+<p>&gt;hex</p>
+<p>&gt;rgb</p>
+<p>&gt;rgba</p>
+<p># 预期条件支持</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.alert_is_present</p>
+<p>预期出现一个弹框</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.element_located_selection_state_to_be(_locator, <a href="#id31"><span class="problematic" id="id32">is_selected_</span></a>)</p>
+<p>预期定位一个元素并且检查选中状态是否符合预期，<a href="#id23"><span class="problematic" id="id24">`</span></a>locator`是一个(by,path)的tuple，<a href="#id25"><span class="problematic" id="id26">`</span></a>is_selected`是布尔值</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.element_located_to_be_selected(_locator_)</p>
+<p>预期一个定位的元素是选中的</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.element_selection_state_to_be(_element,is_selected_)</p>
+<p>预期元素是否选中</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.element_to_be_clickable(locator)</p>
+<p>预期一个元素是否可见可用，以便可以点击它</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.element_to_be_selected(element)</p>
+<p>预期一个元素是选中的</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.frame_to_be_available_and_switch_to_it(locator)</p>
+<p>检查框架是否可以被切换，如果可以，那么就切换到这个框架</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.invisibility_of_element_locator(locator)</p>
+<p>预期元素不可见或者不在DOM上，<a href="#id27"><span class="problematic" id="id28">`</span></a>locator`定位元素</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.presence_of_all_elements_located(locator)</p>
+<p>预期至少有一个元素出现在web页面上，<a href="#id29"><span class="problematic" id="id30">`</span></a>locator`是用来寻找已经被定位了的WebElements list</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.presence_of_element_located(locator)</p>
+<p>预期元素正在页面的DOM上，这不意味着元素是可见的。</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.staleness_of(element)</p>
+<p>等待元素不再附在DOM上，<cite>element`是要等待的元素，如果元素仍然在DOM上返回`False</cite>,否则返回`True`</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.text_to_be_present_in_element(_locator, text__)</p>
+<p>预期给定的文本会出现在指定的元素上</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.text_to_be_present_in_element_value(_locator, text__)</p>
+<p>预期给定的文本会出现在指定的元素的value上</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.title_contains(_title_)</p>
+<p>预期标题包含一个指定的字符串（大小写敏感），匹配返回True，否则返回False</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.title_is(_title_)</p>
+<p>预期标题完全匹配一个字符串</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.visibility_of(_element_)</p>
+<p>预期已经在DOM上的一个元素是可见的。可见不仅仅表示元素是显示的，而且长宽都要大于0.参数_element_是一个`WebElement`。如果元素可见，则返回这个元素对象</p>
+<p>&gt;_class_ selenium.webdriver.support.expected_conditions.visibility_of_element_located(_locator_)</p>
+<p>和`visibility_of`类似，不同的是通过一个定位器来定位元素。如果元素被定位到并且可见，则返回这个元素对象</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/浏览器驱动.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/浏览器驱动.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>页面对象 &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>页面对象<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>这章是对 页面对象设计模型的特别指导。一个页面对象代表了你要测试的用户接口交互的区域。</p>
+<p>使用页面对象模型的好处：
+* 可以写出能在多个测试案例里复用的代码
+* 减少重复代码
+* 如果用户接口更改，只需要在一个地方做相应修改即可</p>
+<p>## 测试案例
+下面这个测试案例测试了在`python.org`网页上搜索一个单词并确认有相应的搜索结果：
+<a href="#id2"><span class="problematic" id="id3">``</span></a><a href="#id4"><span class="problematic" id="id5">`</span></a>python
+import unittest
+from selenium import webdriver
+import page</p>
+<dl class="docutils">
+<dt>class PythonOrgSearch(unittest.TestCase):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;A sample test class to show how page object works&#8221;&#8220;&#8221;</p>
+<dl class="last docutils">
+<dt>def setUp(self):</dt>
+<dd>self.driver = webdriver.Firefox()
+self.driver.get(&#8220;<a class="reference external" href="http://www.python.org">http://www.python.org</a>&#8221;)</dd>
+<dt>def test_search_in_python_org(self):</dt>
+<dd><p class="first">&#8220;&#8221;&#8221;
+Tests python.org search feature. Searches for the word &#8220;pycon&#8221; then verified that some results show up.
+Note that it does not look for any particular text in search results page. This test verifies that
+the results were not empty.
+&#8220;&#8221;&#8220;</p>
+<p>#Load the main page. In this case the home page of Python.org.
+main_page = page.MainPage(self.driver)
+#Checks if the word &#8220;Python&#8221; is in title
+assert main_page.is_title_matches(), &#8220;python.org title doesn&#8217;t match.&#8221;
+#Sets the text of search textbox to &#8220;pycon&#8221;
+main_page.search_text_element = &#8220;pycon&#8221;
+main_page.click_go_button()
+search_results_page = page.SearchResultsPage(self.driver)
+#Verifies that the results page is not empty</p>
+<blockquote class="last">
+<div>assert search_results_page.is_results_found(), &#8220;No results found.&#8221;</div></blockquote>
+</dd>
+<dt>def tearDown(self):</dt>
+<dd>self.driver.close()</dd>
+</dl>
+</dd>
+<dt>if __name__ == &#8220;__main__&#8221;:</dt>
+<dd>unittest.main()</dd>
+</dl>
+<p><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a></p>
+<p>## 页面对象类
+页面对象模型旨在给每一个Web页面创造一个对象。运用这个技术我们可以在测试代码和技术实现之间创建一个分离层，<a href="#id10"><span class="problematic" id="id11">`</span></a>page.py`会是这样的：
+<a href="#id12"><span class="problematic" id="id13">``</span></a><a href="#id14"><span class="problematic" id="id15">`</span></a>python
+from element import BasePageElement
+from locators import MainPageLocators</p>
+<dl class="docutils">
+<dt>class SearchTextElement(BasePageElement):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;This class gets the search text from the specified locator&#8221;&#8220;&#8221;</p>
+<p class="last">#The locator for search box where search string is entered
+locator = &#8216;q&#8217;</p>
+</dd>
+<dt>class BasePage(object):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;Base class to initialize the base page that will be called from all pages&#8221;&#8220;&#8221;</p>
+<dl class="last docutils">
+<dt>def __init__(self, driver):</dt>
+<dd>self.driver = driver</dd>
+</dl>
+</dd>
+<dt>class MainPage(BasePage):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;Home page action methods come here. I.e. Python.org&#8221;&#8220;&#8221;</p>
+<p>#Declares a variable that will contain the retrieved text
+search_text_element = SearchTextElement()</p>
+<dl class="last docutils">
+<dt>def is_title_matches(self):</dt>
+<dd>&#8220;&#8221;&#8220;Verifies that the hardcoded text &#8220;Python&#8221; appears in page title&#8221;&#8220;&#8221;
+return &#8220;Python&#8221; in self.driver.title</dd>
+<dt>def click_go_button(self):</dt>
+<dd>&#8220;&#8221;&#8220;Triggers the search&#8221;&#8220;&#8221;
+element = self.driver.find_element(<a href="#id16"><span class="problematic" id="id17">*</span></a>MainPageLocators.GO_BUTTON)
+element.click()</dd>
+</dl>
+</dd>
+<dt>class SearchResultsPage(BasePage):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;Search results page action methods come here&#8221;&#8220;&#8221;</p>
+<dl class="last docutils">
+<dt>def is_results_found(self):</dt>
+<dd># Probably should search for this text in the specific page
+# element, but as for now it works fine
+return &#8220;No results found.&#8221; not in self.driver.page_source</dd>
+</dl>
+</dd>
+</dl>
+<p><a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a></p>
+<p>## 页面元素
+<a href="#id22"><span class="problematic" id="id23">`</span></a>element.py`类大致是这样的：
+<a href="#id24"><span class="problematic" id="id25">``</span></a><a href="#id26"><span class="problematic" id="id27">`</span></a>python
+from selenium.webdriver.support.ui import WebDriverWait</p>
+<dl class="docutils">
+<dt>class BasePageElement(object):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;Base page class that is initialized on every page object class.&#8221;&#8220;&#8221;</p>
+<dl class="last docutils">
+<dt>def __set__(self, obj, value):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;Sets the text to the value supplied&#8221;&#8220;&#8221;
+driver = obj.driver
+WebDriverWait(driver, 100).until(</p>
+<blockquote>
+<div>lambda driver: driver.find_element_by_name(self.locator))</div></blockquote>
+<p class="last">driver.find_element_by_name(self.locator).send_keys(value)</p>
+</dd>
+<dt>def __get__(self, obj, owner):</dt>
+<dd><p class="first">&#8220;&#8221;&#8220;Gets the text of the specified object&#8221;&#8220;&#8221;
+driver = obj.driver
+WebDriverWait(driver, 100).until(</p>
+<blockquote>
+<div>lambda driver: driver.find_element_by_name(self.locator))</div></blockquote>
+<p class="last">element = driver.find_element_by_name(self.locator)
+return element.get_attribute(&#8220;value&#8221;)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p><a href="#id28"><span class="problematic" id="id29">``</span></a><a href="#id30"><span class="problematic" id="id31">`</span></a></p>
+<p>## 定位器
+One of the practices is to separate the locator strings from the place where they are being used.In this example, locators of the same page belong to same class.</p>
+<p>The locators.py will look like this:
+<a href="#id32"><span class="problematic" id="id33">``</span></a><a href="#id34"><span class="problematic" id="id35">`</span></a>python
+from selenium.webdriver.common.by import By</p>
+<dl class="docutils">
+<dt>class MainPageLocators(object):</dt>
+<dd>&#8220;&#8221;&#8220;A class for main page locators. All main page locators should come here&#8221;&#8220;&#8221;
+GO_BUTTON = (By.ID, &#8216;submit&#8217;)</dd>
+<dt>class SearchResultsPageLocators(object):</dt>
+<dd>&#8220;&#8221;&#8220;A class for search results locators. All search results locators should come here&#8221;&#8220;&#8221;
+pass</dd>
+</dl>
+<p><a href="#id36"><span class="problematic" id="id37">``</span></a><a href="#id38"><span class="problematic" id="id39">`</span></a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/页面对象.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/页面对象.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>附录：FAQ &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="faq">
+<h1>附录：FAQ<a class="headerlink" href="#faq" title="永久链接至标题">¶</a></h1>
+<p>另外一份FAQ:[<a class="reference external" href="https://code.google.com/p/selenium/wiki/FrequentlyAskedQuestions](https://code.google.com/p/selenium/wiki/FrequentlyAskedQuestions">https://code.google.com/p/selenium/wiki/FrequentlyAskedQuestions](https://code.google.com/p/selenium/wiki/FrequentlyAskedQuestions</a>)</p>
+<p>## 怎样使用 ChromeDriver</p>
+<p>下载最新的[chromedriver](<a class="reference external" href="https://sites.google.com/a/chromium.org/chromedriver/downloads">https://sites.google.com/a/chromium.org/chromedriver/downloads</a>),解压文件：
+<code class="docutils literal"><span class="pre">`shell</span>
+<span class="pre">unzip</span> <span class="pre">chromedriver_linux32_x.x.x.x.zip</span>
+<span class="pre">`</span></code>
+你应该会看到一个可执行的`chromedriver`，现在你可以像这样创建一个Chrome Driver的实例了：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver</span> <span class="pre">-</span> <span class="pre">webdriver.Chrome(executable_path=&quot;/path/to/chromedriver&quot;)</span>
+<span class="pre">`</span></code>
+使用例子的剩余部分在其他文档里已经给出了</p>
+<p>## Selenium 2 支持 XPath 2.0 吗？
+相关链接： [<a class="reference external" href="http://seleniumhq.org/docs/03_webdriver.html#how-xpath-works-in-webdriver](http://seleniumhq.org/docs/03_webdriver">http://seleniumhq.org/docs/03_webdriver.html#how-xpath-works-in-webdriver](http://seleniumhq.org/docs/03_webdriver</a>.html#how-xpath-works-in-webdriver)</p>
+<p>Selenium 委托 XPath 去查询浏览器自己的XPath引擎，因此浏览器支持什么XPath，Selenium就支持什么。在不支持XPath引擎的浏览器里（IE 6，7，8）,Selenium仅支持 XPath 1.0</p>
+<p>## 怎么滚动到页面的底部？
+相关链接：[<a class="reference external" href="http://blog.varunin.com/2011/08/scrolling-on-pages-using-selenium.html](http://blog.varunin.com/2011/08/scrolling-on-pages-using-selenium.html">http://blog.varunin.com/2011/08/scrolling-on-pages-using-selenium.html](http://blog.varunin.com/2011/08/scrolling-on-pages-using-selenium.html</a>)</p>
+<p>你可以使用`execute_script`方法来在载入的页面上执行JS，因此，你可以调用JS的API来滚动到页面的底部或者其他任意位置。</p>
+<p>下面是一个滚动到底部的实例：
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">driver.execute_script(&quot;window.scrollTo(0,document.body.scrollHeight);&quot;)</span>
+<span class="pre">`</span></code>
+DOM的窗口对象有一个 [scrollTo](<a class="reference external" href="http://www.w3schools.com/jsref/met_win_scrollto.asp">http://www.w3schools.com/jsref/met_win_scrollto.asp</a>) 方法来在打开的窗口中滚动到任意位置，
+[scrollHeight](<a class="reference external" href="http://www.w3schools.com/jsref/dom_obj_all.asp">http://www.w3schools.com/jsref/dom_obj_all.asp</a>)是所有元素的一个通用属性，<a href="#id1"><span class="problematic" id="id2">`</span></a>document.body.scrollHeight`是页面整个`body`的高度</p>
+<p>## 怎样使用定制的      Firefox profile自动保存文件
+相关链接：[<a class="reference external" href="http://stackoverflow.com/questions/1176348/access-to-file-download-dialog-in-firefox](http://stackoverflow.com/questions/1176348/access-to-file-download-dialog-in-firefox">http://stackoverflow.com/questions/1176348/access-to-file-download-dialog-in-firefox](http://stackoverflow.com/questions/1176348/access-to-file-download-dialog-in-firefox</a>)</p>
+<p>[<a class="reference external" href="http://blog.codecentric.de/en/2010/07/file-downloads-with-selenium-mission-impossible/](http://blog.codecentric.de/en/2010/07/file-downloads-with-selenium-mission-impossible/">http://blog.codecentric.de/en/2010/07/file-downloads-with-selenium-mission-impossible/](http://blog.codecentric.de/en/2010/07/file-downloads-with-selenium-mission-impossible/</a>)</p>
+<p>第一步：确定你想要自己保存的文件类型。要确认你想自动下载的内容类型，你可以使用 [curl](<a class="reference external" href="http://curl.haxx.se/">http://curl.haxx.se/</a>):
+<code class="docutils literal"><span class="pre">`shell</span>
+<span class="pre">curl</span> <span class="pre">-I</span> <span class="pre">URL|grep</span> <span class="pre">&quot;Content-Type&quot;</span>
+<span class="pre">`</span></code></p>
+<p>另外一个找出内容类型的方法是使用 [requests模块](<a class="reference external" href="http://python-requests.org/">http://python-requests.org/</a>):
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">import</span> <span class="pre">requests</span>
+<span class="pre">content_type</span> <span class="pre">=</span> <span class="pre">requests.head('http://www.python.org').headers['content-type']</span>
+<span class="pre">print(content_type)</span>
+<span class="pre">`</span></code></p>
+<p>一旦你确定了内容类型，你就可以设置 firefox profile相关：<cite>browser.helperApps.neverAsk.saveToDisk</cite></p>
+<p>下面是一个实例：
+<a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a>python
+import os</p>
+<p>from selenium import webdriver</p>
+<p>fp = webdriver.FirefoxProfile()</p>
+<p>fp.set_preference(&#8220;browser.download.folderList&#8221;,2)
+fp.set_preference(&#8220;browser.download.manager.showWhenStarting&#8221;,False)
+fp.set_preference(&#8220;browser.download.dir&#8221;,os.getcwd())
+fp.set_preference(&#8220;browser.helperApps.neverAsk.saveToDisk&#8221;,&#8221;application/octet-stream&#8221;)</p>
+<p>browser = webdriver.Firefox(firefox_profile=fp)
+browser.get(&#8220;<a class="reference external" href="http://pypi.python.org/pypi/selenium">http://pypi.python.org/pypi/selenium</a>&#8221;)
+browser.find_element_by_partial_link_text(&#8220;selenium-2&#8221;).click()
+<a href="#id7"><span class="problematic" id="id8">``</span></a>`
+上面的例子中，我们用了`application/octet-stream`这个内容类型，<a href="#id9"><span class="problematic" id="id10">`</span></a>browser.download.dir`指定了你想要保存下载文件的路径</p>
+<p>## 怎么向文件上传表单上传文件？
+选中`&lt;input type=&#8221;file&#8221;&gt;`元素，调用`send_keys()`方法，传递文件的路径。可以传递绝对路径或者相对测试脚本的路径。要注意windows和Unix系统路径名的差异</p>
+<p>## 如何使用firebug？
+首先下载Firebug XPI 文件，然后调用`add_extension`方法：
+<a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a>python
+from selenium import webdriver</p>
+<p>fp = webdriver.FirefoxProfile()</p>
+<p>fp.add_extension(extension=&#8217;firebug-1.8.4.xpi&#8217;)
+fp.set_preference(&#8220;extension.firebug.currentVersion&#8221;,&#8221;1.8.4&#8221;) # Avoid startup screen
+browser = webdriver.Firefox(firefox_profile=fp)
+<a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">`</span></a></p>
+<p>## 怎样给当前窗口截图？
+使用webdriver提供的`save_screenshot`方法：
+<a href="#id19"><span class="problematic" id="id20">``</span></a><a href="#id21"><span class="problematic" id="id22">`</span></a>python
+from selenium import webdriver</p>
+<p>driver = webdriver.Firefox()
+driver.get(&#8216;<a class="reference external" href="http://www.python.org/">http://www.python.org/</a>&#8216;)
+driver.save_screenshot(&#8216;screenshot.png&#8217;)
+driver.quit()
+<a href="#id23"><span class="problematic" id="id24">``</span></a><a href="#id25"><span class="problematic" id="id26">`</span></a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/常见问题.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/常见问题.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

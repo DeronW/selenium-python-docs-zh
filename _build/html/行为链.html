@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>行为链 &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>行为链<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>&gt; class selenium.webdriver.common.action_chains.ActionChains(driver)</p>
+<p><a href="#id2"><span class="problematic" id="id3">`</span></a>ActionChains`可以完成简单的交互行为，例如鼠标移动，鼠标点击事件，键盘输入，以及内容菜单交互。这对于模拟那些复杂的类似于鼠标悬停和拖拽行为很有用</p>
+<p>&gt; 产生用户行为</p>
+<p>当你在`ActionChains`对象上调用行为方法时，这些行为会存储在`ActionChains`对象的一个队列里。调用`perform()`时，这些动作就以他们队列的顺序来触发</p>
+<p><a href="#id4"><span class="problematic" id="id5">`</span></a>ActionChains`可以使用链式模型:
+<a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>python
+menu = driver.find_element_by_css_selector(&#8221;.nav&#8221;)
+hidden_submenu = driver.find_element_by_css_selector(&#8221;.nav #submenu1&#8221;)</p>
+<p>ActionChains(driver).move_to_element(menu).click(hidden_submenu).perform()
+<a href="#id10"><span class="problematic" id="id11">``</span></a><a href="#id12"><span class="problematic" id="id13">`</span></a></p>
+<p>或者也可以一个个排队，然后执行：
+<a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">`</span></a>python
+menu = driver.find_element_by_css_selector(&#8221;.nav&#8221;)
+hidden_submenu = driver.find_element_by_css_selector(&#8221;.nav #submenu1&#8221;)</p>
+<p>actions = ActionChains(driver)
+actions.move_to_element(menu)
+actions.click(hidden_submenu)
+action.perform()
+<a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a></p>
+<p>不管怎样，这些动作总是一个接一个按他们被调用的顺序执行。</p>
+<p>&gt; click(on_element=None)</p>
+<p>点击一个元素</p>
+<p>参数：
+* on_element:要点击的元素，如果是`None`，点击鼠标当前的位置</p>
+<p>&gt; click_and_hold(on_element=None)</p>
+<p>鼠标左键点击一个元素并且保持</p>
+<p>参数：
+* on_element:同click()类似</p>
+<p>&gt; double_click(on_element=None)</p>
+<p>双击一个元素</p>
+<p>参数：
+* on_element:同click()类似</p>
+<p>&gt; drag_and_drop(source, target)</p>
+<p>鼠标左键点击`source`元素，然后移动到`target`元素释放鼠标按键</p>
+<p>参数：
+* source:鼠标点击的元素
+* target:鼠标松开的元素</p>
+<p>&gt; drag_and_drop_by_offset(source, xoffset,yoffset)</p>
+<p>拖拽目标元素到指定的偏移点释放</p>
+<p>参数:
+* source:点击的参数
+* xoffset:X偏移量
+* yoffset:Y偏移量</p>
+<p>&gt;key_down(value,element=None)</p>
+<p>只按下键盘，不释放。我们应该只对那些功能键使用(Contril,Alt,Shift)</p>
+<p>参数：
+* value：要发送的键，值在`Keys`类里有定义
+* element:发送的目标元素，如果是`None`，value会发到当前聚焦的元素上</p>
+<p>例如，我们要按下 ctrl+c:
+<code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">ActionChains(driver).key_down(Keys.CONTROL).send_keys('c').key_up(Keys.CONTROL).perform()</span>
+<span class="pre">`</span></code></p>
+<p>&gt;key_up(value,element=None)</p>
+<p>释放键。参考key_down的解释</p>
+<p>&gt;move_by_offset(xoffset,yoffset)</p>
+<p>将当前鼠标的位置进行移动</p>
+<p>参数：
+* xoffset:要移动的X偏移量，可以是正也可以是负
+* yoffset:要移动的Y偏移量，可以是正也可以是负</p>
+<p>&gt;move_to_element(to_element)</p>
+<p>把鼠标移到一个元素的中间</p>
+<p>参数：
+* to_element:目标元素</p>
+<p>&gt;move_to_element_with_offset(to_element,xoffset,yoffset)</p>
+<p>鼠标移动到元素的指定位置，偏移量以元素的左上角为基准</p>
+<p>参数：
+* to_element:目标元素
+* xoffset:要移动的X偏移量
+* yoffset:要移动的Y偏移量</p>
+<p>&gt;perform()</p>
+<p>执行所有存储的动作</p>
+<p>&gt;release(on_element=None)</p>
+<p>释放一个元素上的鼠标按键，</p>
+<p>参数：
+* on_element:如果为`None`,在当前鼠标位置上释放</p>
+<p>&gt;send_keys(<a href="#id22"><span class="problematic" id="id23">*</span></a>keys_to_send)</p>
+<p>向当前的焦点元素发送键</p>
+<p>参数:
+* keys_to_send:要发送的键，修饰键可以到`Keys`类里找到</p>
+<p>&gt;send_keys_to_element(element,*keys_to_send)</p>
+<p>向指定的元素发送键</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/行为链.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/行为链.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
