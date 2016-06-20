@@ -25,7 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
-    <link rel="prev" title="Welcome to selenium-python-docs-zh’s documentation!" href="index.html" />
+    <link rel="next" title="开始" href="开始.html" />
+    <link rel="prev" title="Selenium Python 文档" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -46,19 +47,18 @@
 <h2>介绍<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
 <p>Selenium Python 提供了一个简单的API 便于我们使用 Selenium WebDriver编写 功能/验收测试。
 通过Selenium Python的API，你可以直观地使用所有的 Selenium WebDriver 功能</p>
-<p>Selenium Python提供了一个很方便的接口来驱动 Selenium WebDriver ，例如 Firefox、Chrome、Ie,以及Remote
-，目前支持的python版本有2.7, 3.2, 3.3 和 3.4.</p>
+<p>Selenium Python提供了一个很方便的接口来驱动 Selenium WebDriver ，例如
+Firefox、Chrome、Ie,以及Remote，目前支持的python版本有2.7, 3.2, 3.3 和 3.4.</p>
 </div>
 <div class="section" id="pythonselenium">
 <h2>下载python的selenium安装包<a class="headerlink" href="#pythonselenium" title="永久链接至标题">¶</a></h2>
-<p>你可以从[这里](<a class="reference external" href="http://pypi.python.org/pypi/selenium">http://pypi.python.org/pypi/selenium</a>) 下载python的selenium安装包，但是更好的办法是用pip来安装。
-Python3.4的标准库里就有现成的pip工具，用pip你可以这么安装selenium:</p>
-<dl class="docutils">
-<dt>::</dt>
-<dd>shell
-pip install selenium</dd>
-</dl>
-<p>你可能会想用虚拟机来安装一个独立的Python环境，Python的[pyvenc](<a class="reference external" href="http://docs.python.org/3.4/using/scripts.html#scripts-pyvenv">http://docs.python.org/3.4/using/scripts.html#scripts-pyvenv</a>)功能和虚拟机基本上是一样的。</p>
+<p>你可以从 <a class="reference external" href="http://pypi.python.org/pypi/selenium">http://pypi.python.org/pypi/selenium</a> 下载Python的selenium安装包，但是更好的办法是用pip来安装。
+Python3.4的标准库里就有现成的pip工具，用pip你可以这么安装 selenium:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shell</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">selenium</span>
+</pre></div>
+</div>
+<p>你可能会想用虚拟机来安装一个独立的Python环境，Python的 <a class="reference external" href="http://docs.python.org/3.4/using/scripts.html#scripts-pyvenv">虚拟环境</a>. 功能和虚拟机基本上是一样的。</p>
 </div>
 <div class="section" id="windows">
 <h2>windows用户的详细说明<a class="headerlink" href="#windows" title="永久链接至标题">¶</a></h2>
@@ -68,36 +68,36 @@ pip install selenium</dd>
 <li>安装python3.4 [安装地址](<a class="reference external" href="http://www.python.org/download">http://www.python.org/download</a>)</li>
 <li>用cmd.exe开启命令行，并用下面的命令安装selenium</li>
 </ol>
-<dl class="docutils">
-<dt>::</dt>
-<dd>shell
-C:Python34Scriptspip.exe install selenium</dd>
-</dl>
-<p>现在你可以用python来运行你的测试脚本了。例如，如果你创建了一个Selenium脚本然后保存到文件`C:my_selenium_script.py`,你可以这么运行它：</p>
-<dl class="docutils">
-<dt>::</dt>
-<dd>shell
-C:Python34python.exe C:my_selenium_script.py</dd>
-</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shell</span>
+<span class="n">C</span><span class="p">:</span>\<span class="n">Python34</span>\<span class="n">Scripts</span>\<span class="n">pip</span><span class="o">.</span><span class="n">exe</span> <span class="n">install</span> <span class="n">selenium</span>
+</pre></div>
+</div>
+<p>现在你可以用python来运行你的测试脚本了。例如，如果你创建了一个Selenium脚本然后保存到文件 <code class="docutils literal"><span class="pre">C:\my_selenium_script.py</span></code> ,你可以这么运行它</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shell</span>
+<span class="n">C</span><span class="p">:</span>\<span class="n">Python34</span>\<span class="n">python</span><span class="o">.</span><span class="n">exe</span> <span class="n">C</span><span class="p">:</span>\<span class="n">my_selenium_script</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="selenium-server">
 <h2>下载Selenium server<a class="headerlink" href="#selenium-server" title="永久链接至标题">¶</a></h2>
-<p>&gt;注意：如果你想要使用 Remote WebDriver，必须要安装Selenium server,更多的细节可以看[这里](<a class="reference external" href="http://selenium-python.readthedocs.org/getting-started.html#selenium-remote-webdriver">http://selenium-python.readthedocs.org/getting-started.html#selenium-remote-webdriver</a>)。
-&gt;如果你刚开始学Selenium,你可以跳过这一块从下一章节开始。</p>
-<p>Selenium server 是个Java程序，推荐使用1.6及以上的JRE来运行Selenium server。
-你可以从[这里](<a class="reference external" href="http://seleniumhq.org/download/">http://seleniumhq.org/download/</a>)下载 2.x的 Selenium server，文件名看起来应该类似于这样`selenium-server-standalone-2.x.x.jar`
-什么时候你都可以下载到最新的2.x Selenium server</p>
-<p>如果你的机器没有安装JRE，你可以从[JRE from the Oracle website](<a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>)下载一个。如果你使用的是  GNU/Linux系统并且有ROOT权限的话，你也可以使用系统命令来安装JRE。
-如果你的PATH(环境变量)里 <cite>java`命令是可用的话，你可以用这个命令来开启Selenium server:
-```shell
-java -jar selenium-server-standalone-2.x.x.jar
-``</cite>
-把2.x.x替换成你从网下下载的版本。
-如果是一个非ROOT用户安装的JRE，或者环境变量里`java`命令不可用，你可以输入`java`命令的相对路径或者绝对路径，同样你也可以提供Selenium server的相对路径或者绝对路径。
-然后这个命令看起来就像这样：
-<code class="docutils literal"><span class="pre">`shell</span>
-<span class="pre">/path/to/java</span> <span class="pre">-jar</span> <span class="pre">/path/to/selenium-server-standalone-2.x.x.jar</span>
-<span class="pre">`</span></code></p>
+<p>注意：如果你想要使用 Remote WebDriver，必须要安装Selenium server <a class="reference external" href="http://selenium-python.readthedocs.org/getting-started.html#selenium-remote-webdriver">更多的细节</a>.</p>
+<p>如果你刚开始学Selenium,你可以跳过这一块从下一章节开始。</p>
+<p>Selenium server 是个Java程序，推荐使用1.6及以上的JRE来运行Selenium server。</p>
+<p>在 <a class="reference external" href="http://seleniumhq.org/download/">http://seleniumhq.org/download/</a> 下载 2.x的 Selenium server，文件名看起来应该类似于这样 <code class="docutils literal"><span class="pre">selenium-server-standalone-2.x.x.jar</span></code></p>
+<p>什么时候你都可以下载到最新的2.x Selenium server</p>
+<p>如果你的机器没有安装JRE，你可以从 <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a> 下载一个。如果你使用的是  GNU/Linux系统并且有ROOT权限的话，你也可以使用系统命令来安装JRE。
+如果你的PATH(环境变量)里 <code class="docutils literal"><span class="pre">java</span></code> 命令是可用的话，你可以用这个命令来开启Selenium server</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shell</span>
+<span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">selenium</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">standalone</span><span class="o">-</span><span class="mf">2.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p>把2.x.x替换成你从网下下载的版本。</p>
+<p>如果是一个非ROOT用户安装的JRE，或者环境变量里`java`命令不可用，你可以输入`java`命令的相对路径或者绝对路径，同样你也可以提供Selenium server的相对路径或者绝对路径。</p>
+<p>然后这个命令看起来就像这样</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shell</span>
+<span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">selenium</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">standalone</span><span class="o">-</span><span class="mf">2.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -121,7 +121,8 @@ java -jar selenium-server-standalone-2.x.x.jar
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="上一章">Welcome to selenium-python-docs-zh&#8217;s documentation!</a></li>
+      <li>Previous: <a href="index.html" title="上一章">Selenium Python 文档</a></li>
+      <li>Next: <a href="开始.html" title="下一章">开始</a></li>
   </ul></li>
 </ul>
 </div>

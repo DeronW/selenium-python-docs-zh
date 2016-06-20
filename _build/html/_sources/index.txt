@@ -1,15 +1,13 @@
-.. selenium-python-docs-zh documentation master file, created by
-   sphinx-quickstart on Sun Jun 19 14:37:42 2016.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
-Welcome to selenium-python-docs-zh's documentation!
+Selenium Python 文档
 ===================================================
 
-Contents:
+摘要:
+
+Selenium 2.53.0 文档
 
 .. toctree::
-   :maxdepth: 3
+	:maxdepth: 3
    
 	安装
 	开始
