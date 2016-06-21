@@ -25,28 +25,32 @@
 
 >XPATH = 'xpath'
 
-# 期望的功能
+期望的功能
+--------------
+
 请到 [2.开始]() 查看期望功能的实例
 >class selenium.webdriver.common.desired_capabilities.DesiredCapabilities
 
 默认支持的期望功能的集合
 
 在请求远程Web驱动连接selenium server 或者selenium grid时，首先一点要先创建一个期望功能的对象，请看实例：
-```python
-from selenium import webdriver
-selenium_grid_url = "http://198.0.0.1:4444/wd/hub"
 
-# Create a desired capabilities object as a start point.
-capabilities = DesiredCapabilities.FIREFOX.copy()
-capabilities['platform'] = "WINDOWS"
-capabilities['version'] = "10"
+::
 
-# Instantiate an instance of Remote WebDriver with the desired capabilities.
-driver = webdriver.Remote(
-	desired_capabilities=capabilities,
-	command_executor=selenium_grid_url)
-```
-**注意**，请记得使用在DesiredCapabilities上使用`.copy()`，避免变更全局类实例带来的副作用
+	from selenium import webdriver
+	selenium_grid_url = "http://198.0.0.1:4444/wd/hub"
+
+	# Create a desired capabilities object as a start point.
+	capabilities = DesiredCapabilities.FIREFOX.copy()
+	capabilities['platform'] = "WINDOWS"
+	capabilities['version'] = "10"
+
+	# Instantiate an instance of Remote WebDriver with the desired capabilities.
+	driver = webdriver.Remote(
+		desired_capabilities=capabilities,
+		command_executor=selenium_grid_url)
+
+**注意**，请记得使用在DesiredCapabilities上使用 ``.copy()`` ，避免变更全局类实例带来的副作用
 >ANDROID = {'platform': 'ANDROID', 'browserName': 'android', 'version': '', 'javascriptEnabled': True}
 
 >CHROME = {'platform': 'ANY', 'browserName': 'chrome', 'version': '', 'javascriptEnabled': True}
@@ -72,8 +76,10 @@ driver = webdriver.Remote(
 >SAFARI = {'platform': 'ANY', 'browserName': 'safari', 'version': '', 'javascriptEnabled': True}
 
 
-# 实用工具
-一些`Utils`方法。
+实用工具
+------------
+
+一些 ``Utils`` 方法。
 
 >selenium.webdriver.common.utils.free_port()
 
@@ -82,7 +88,7 @@ driver = webdriver.Remote(
 >selenium.webdriver.common.utils.is_connectable(port)
 
 试图连接服务器上的端口看看是否可用
- 
+
 >selenium.webdriver.common.utils.is_url_connectable(port)
 
 试图连接一个HTTP服务器的指定端口，看是否成功返回

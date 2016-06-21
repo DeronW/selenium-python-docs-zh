@@ -43,7 +43,7 @@ click(on_element=None)
 点击一个元素
 
 参数：
-* on_element:要点击的元素，如果是`None`，点击鼠标当前的位置
+* on_element:要点击的元素，如果是 ``None`` ，点击鼠标当前的位置
 
 click_and_hold(on_element=None)
 
@@ -61,7 +61,7 @@ double_click(on_element=None)
 
 drag_and_drop(source, target)
 
-鼠标左键点击`source`元素，然后移动到`target`元素释放鼠标按键
+鼠标左键点击`source`元素，然后移动到 ``target`` 元素释放鼠标按键
 
 参数：
 
@@ -84,7 +84,7 @@ key_down(value,element=None)
 
 参数：
 
-* value：要发送的键，值在`Keys`类里有定义
+* value：要发送的键，值在 ``Keys`` 类里有定义
 * element:发送的目标元素，如果是`None`，value会发到当前聚焦的元素上
 
 例如，我们要按下 ctrl+c:
@@ -92,8 +92,6 @@ key_down(value,element=None)
 ::
 
 	ActionChains(driver).key_down(Keys.CONTROL).send_keys('c').key_up(Keys.CONTROL).perform()
-
-
 
 key_up(value,element=None)
 
@@ -135,7 +133,7 @@ release(on_element=None)
 
 参数：
 
-* on_element:如果为`None`,在当前鼠标位置上释放
+* on_element:如果为 ``None`` ,在当前鼠标位置上释放
 
 
 send_keys(*keys_to_send)

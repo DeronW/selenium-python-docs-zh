@@ -15,7 +15,8 @@ Firefox WebDriver
 
 >firefox_profile
 
-# Chrome WebDriver
+Chrome WebDriver
+--------------------
 
 >class selenium.webdriver.chrome.webdriver.WebDriver(executable_path='chromedriver', port=0, chrome_options=None, service_args=None, desired_capabilities=None, service_log_path=None)
 
@@ -36,7 +37,8 @@ Firefox WebDriver
 
 关闭浏览器，关闭开始时启动的ChromeDriver
 
-# Remote WebDriver
+Remote WebDriver
+---------------------
 
 >class selenium.webdriver.remote.webdriver.WebDriver(command_executor='http://127.0.0.1:4444/wd/hub', desired_capabilities=None, browser_profile=None, proxy=None, keep_alive=False)
 
@@ -55,28 +57,28 @@ Firefox WebDriver
 * cookie_dict:dict对象，需要指定键`name`和`value`，可选的键有:`path`,`domain`,`secure`,`expiry`
 
 用法：
-```python
-driver.add_cookie({'name':'foo','value':'bar'})
-driver.add_cookie({'name':'foo','value':'bar','path':'/'})
-driver.add_cookie({'name':'foo','value':'bar','path':'/','secure':True})
-```
 
+::
+
+	driver.add_cookie({'name':'foo','value':'bar'})
+	driver.add_cookie({'name':'foo','value':'bar','path':'/'})
+	driver.add_cookie({'name':'foo','value':'bar','path':'/','secure':True})
 
 >back() - 在浏览历史中回退一步
 
 例：
-```python
-driver.back()
-```
 
+::
+
+	driver.back()
 
 >close() - 关闭当前窗口
 
 例：
-```python
-driver.close()
-```
 
+::
+
+	driver.close()
 
 >create_web_element(element_id) - 以指定的元素id创建一个新web元素
 
@@ -84,18 +86,18 @@ driver.close()
 >delete_all_cookies() - 删除当前会话的所有cookie
 
 例：
-```python
-driver.delete_all_cookies()
-```
 
+::
+
+	driver.delete_all_cookies()
 
 >delete_cookie(name) - 删除一个指定的cookie
 
 例：
-```python
-driver.delete_cookie('my_cookie')
-```
 
+::
+
+	driver.delete_cookie('my_cookie')
 
 >execute(driver_command, params=None)
 
@@ -107,7 +109,6 @@ driver.delete_cookie('my_cookie')
 
 返回：命令的JSON返回会加载到一个dict对象
 
-
 >execute_async_script(script,*args)
 
 在当前的窗口/框架里异步执行Javascript
@@ -117,9 +118,11 @@ driver.delete_cookie('my_cookie')
 * \*args:js的任意合适的参数
 
 例：
-```python
-driver.execute_async_script('document.title')
-```
+
+::
+
+	driver.execute_async_script('document.title')
+
 （这样也算一个例子？参数呢？）
 
 (find_element_*方法，自行参看[原文档](http://selenium-python.readthedocs.org/api.html#module-selenium.webdriver.remote.webdriver))
@@ -140,12 +143,13 @@ driver.execute_async_script('document.title')
 >get_log(log_type) - 获取指定类型的日志
 
 例：
-```
-driver.get_log('browser')
-driver.get_log('driver')
-driver.get_log('client')
-driver.get_log('server')
-```
+
+::
+
+	driver.get_log('browser')
+	driver.get_log('driver')
+	driver.get_log('client')
+	driver.get_log('server')
 
 
 >get_screenshot_as_base64() - 获取当前页面的截图的base64编码字符串，当页面嵌入了图片时这个方法很有用。
@@ -154,10 +158,10 @@ driver.get_log('server')
 >get_screenshot_as_file(filename) - 获取当前页面截图，如果有任何 IOError则返回False,正常返回True,文件名记得使用完整的路径
 
 例：
-```python
-driver.get_screenshot_as_file('/Screenshots/foo.png/')
-```
 
+::
+
+	driver.get_screenshot_as_file('/Screenshots/foo.png/')
 
 >get_screenshot_as_png - 获取当前窗口截图的二进制数据
 
@@ -173,10 +177,10 @@ driver.get_screenshot_as_file('/Screenshots/foo.png/')
 在每次会话里，这个方法只需要被调用一次。超时后要调用 `execute_async_script`，请参看 `set_script_timeout`
 
 例：
-```python
-driver.implicitly_wait(30)
-```
 
+::
+
+	driver.implicitly_wait(30)
 
 >maximize_window() - 将webdriver正在使用的窗口最大化
 
@@ -190,7 +194,7 @@ driver.implicitly_wait(30)
 >set_page_load_timeout(time_to_wait) - 给载入页面设置一个超时时间，在抛出错误之前会等待到加载完成
 
 
->set_script_timeout(time_to_wait) - 在一个 `execute_async_script`调用期间，设置脚本等待的时间
+>set_script_timeout(time_to_wait) - 在一个 ``execute_async_script`` 调用期间，设置脚本等待的时间
 
 
 >set_window_position(x,y,windowHandle='current') - 给页面设置x,y位置
@@ -242,7 +246,7 @@ driver.implicitly_wait(30)
 >desired_capabilities - 返回当前驱动正在使用的 '期望性能'
 
 
->file_detector 
+>file_detector
 
 
 >log_types - 返回可用的日志类型list
@@ -263,35 +267,36 @@ driver.implicitly_wait(30)
 >switch_to
 
 
->title - 当前页面的标题 
+>title - 当前页面的标题
 
 
 >window_handles - 返回当前会话内所有窗口的资源句柄
 
 
-# 页面元素
+页面元素
+-------------
 
 >class selenium.webdriver.remote.webelement.WebElement(parent,id_,w3c=False)
 
 代表一个DOM元素。通常所有和文档互动的有趣操作都要通过这个接口执行。
 
 所有的方法调用都会做一个 '新鲜检查' 来确认引用的元素仍然可用,这本质上确定了这个元素是否还与DOM相连。如果检测失败，会抛出
-`StaleEleementReferenceException`异常，并且下面的所有对这个接口的调用都会失败
+``StaleEleementReferenceException`` 异常，并且下面的所有对这个接口的调用都会失败
 
 (拥有find_element_by_*所有方法，请参看[此处](http://selenium-python.readthedocs.org/api.html#module-selenium.webdriver.remote.webelement))
 
 
 >get_attribute(name) - 返回元素指定的属性
 
-这个方法首先会尝试返回元素指定的属性，如果属性不存在，它会返回和属性名相同的字符串，如果没有属性是这个名字，返回`None`。
-被认为是真假的值会返回布尔类型，其他所有的非`None`值都会以字符串的形式返回。属性不存在，返回`None`
+这个方法首先会尝试返回元素指定的属性，如果属性不存在，它会返回和属性名相同的字符串，如果没有属性是这个名字，返回 ``None`` 。
+被认为是真假的值会返回布尔类型，其他所有的非`None`值都会以字符串的形式返回。属性不存在，返回 ``None``
 
 例：
-```python
-# Check if the "active" CSS class is applied to en element
-is_active = "active" in target_element.get_attribute("class")
-```
 
+::
+
+	# Check if the "active" CSS class is applied to en element
+	is_active = "active" in target_element.get_attribute("class")
 
 >is_displayed() - 元素对用户是否可见
 
@@ -302,37 +307,37 @@ is_active = "active" in target_element.get_attribute("class")
 >is_selected() - 元素是否被选中,可用来检测单选或者复选按钮是否被选中
 
 
->screenshot(filename) - 获取当前元素的截图，有IOError会返回`False`,文件名要包含完整路径
+>screenshot(filename) - 获取当前元素的截图，有IOError会返回 ``False`` ,文件名要包含完整路径
 
 
->send_keys(*value) - 模拟向元素输入
+>send_keys(\*value) - 模拟向元素输入
 
 使用这个方法发送简单的按键时间或者填充表单字段：
-```python
-form_textfiled = driver.find_element_by_name("username")
-form_textfiled.send_keys("admin")
-```
-这个方法还可以用来设置文件：
-```python
-file_input = driver.find_element_by_name('profilePic')
-file_input.send_keys('path/to/profilepic.gif')
-```
 
+::
+
+	form_textfiled = driver.find_element_by_name("username")
+	form_textfiled.send_keys("admin")
+
+这个方法还可以用来设置文件：
+
+::
+
+	file_input = driver.find_element_by_name('profilePic')
+	file_input.send_keys('path/to/profilepic.gif')
 
 >submit() - 提交表单
-
 
 >value_of_css_property(property_name) - CSS属性的值
 
 
 >id - selenium使用的内部ID
 
-这个主要是内部使用，简单的使用案例是用来做类似于检测两个元素是否关联到相同的元素上，可以用`==`来比较：
-```python
-if element1 == element2:
-	print("These 2 are equal")
-```
+这个主要是内部使用，简单的使用案例是用来做类似于检测两个元素是否关联到相同的元素上，可以用 ``==`` 来比较：
 
+::
+	if element1 == element2:
+		print("These 2 are equal")
 
 >location - 元素在可渲染的画布上的位置
 
@@ -363,32 +368,30 @@ if element1 == element2:
 
 >text - 元素的文本
 
-# UI支持
+UI支持
+----------
 
 >class selenium.webdriver.support.select.Select(webelement)
 
-
->deselect_all() - 清除所有的选中输入。仅当选择项支持多选的时候可用，如果不支持多选会抛出`NotImplementedError`。
-
+>deselect_all() - 清除所有的选中输入。仅当选择项支持多选的时候可用，如果不支持多选会抛出 ``NotImplementedError`` 。
 
 >deselect_by_index(index) - 取消指定索引的选项的选中。这个方法会检查`index`属性，而不仅仅是计数
-
 
 >deselect_by_value(value) - 取消所有选项的值匹配的选中状态。
 
 意思就是，当给出一个'foo'值时，会取消选中一个类似这样的选项：
-```html
-<option value="foo">Bar</option>
-```
 
+::
+
+	<option value="foo">Bar</option>
 
 >deselect_by_visible_text(text) - 取消选中所有文本匹配的选项
 
 给出'Bar'时，匹配：
-```html
-<option value="foo">Bar</option>
-```
 
+::
+
+	<option value="foo">Bar</option>
 
 >select_by_index(index)
 
@@ -415,26 +418,27 @@ if element1 == element2:
 
 >until(method, message='')
 
-调用驱动提供的方法名当参数，直到方法返回值 不是 `False`
+调用驱动提供的方法名当参数，直到方法返回值 不是 ``False``
 
 
 >until_not(method, message='')
 
-调用驱动提供的方法名当参数，直到方法返回值 是 `False`
+调用驱动提供的方法名当参数，直到方法返回值 是 ``False``
 
-# 颜色支持
+颜色支持
+--------------
 
 >class selenium.webdriver.support.color.Color(red,green,blue,alpha=1)
 
 颜色变换支持类：
-```python
-from selenium.webdriver.support.color import Color
 
-print(Color.from_string('#00fff33').rgba)
-print(Color.from_string('rgb(1,255,3)').hex)
-print(Color.from_string('blue').rgba)
-```
+::
 
+	from selenium.webdriver.support.color import Color
+
+	print(Color.from_string('#00fff33').rgba)
+	print(Color.from_string('rgb(1,255,3)').hex)
+	print(Color.from_string('blue').rgba)
 
 >_static_ from_string(_str_)
 
@@ -447,17 +451,17 @@ print(Color.from_string('blue').rgba)
 
 >rgba
 
-# 预期条件支持
-
+预期条件支持
+--------------
 
 >_class_ selenium.webdriver.support.expected_conditions.alert_is_present
 
 预期出现一个弹框
 
 
->_class_ selenium.webdriver.support.expected_conditions.element_located_selection_state_to_be(_locator, is_selected_)
+>_class_ selenium.webdriver.support.expected_conditions.element_located_selection_state_to_be(_locator, is_selected)
 
-预期定位一个元素并且检查选中状态是否符合预期，`locator`是一个(by,path)的tuple，`is_selected`是布尔值
+预期定位一个元素并且检查选中状态是否符合预期， ``locator`` 是一个(by,path)的tuple， ``is_selected`` 是布尔值
 
 
 >_class_ selenium.webdriver.support.expected_conditions.element_located_to_be_selected(_locator_)
@@ -469,79 +473,54 @@ print(Color.from_string('blue').rgba)
 
 预期元素是否选中
 
-
 >_class_ selenium.webdriver.support.expected_conditions.element_to_be_clickable(locator)
 
 预期一个元素是否可见可用，以便可以点击它
-
 
 >_class_ selenium.webdriver.support.expected_conditions.element_to_be_selected(element)
 
 预期一个元素是选中的
 
-
 >_class_ selenium.webdriver.support.expected_conditions.frame_to_be_available_and_switch_to_it(locator)
 
 检查框架是否可以被切换，如果可以，那么就切换到这个框架
 
-
 >_class_ selenium.webdriver.support.expected_conditions.invisibility_of_element_locator(locator)
 
-预期元素不可见或者不在DOM上，`locator`定位元素
-
+预期元素不可见或者不在DOM上， ``locator`` 定位元素
 
 >_class_ selenium.webdriver.support.expected_conditions.presence_of_all_elements_located(locator)
 
-预期至少有一个元素出现在web页面上，`locator`是用来寻找已经被定位了的WebElements list
-
+预期至少有一个元素出现在web页面上， ``locator`` 是用来寻找已经被定位了的WebElements list
 
 >_class_ selenium.webdriver.support.expected_conditions.presence_of_element_located(locator)
 
 预期元素正在页面的DOM上，这不意味着元素是可见的。
 
-
 >_class_ selenium.webdriver.support.expected_conditions.staleness_of(element)
 
-等待元素不再附在DOM上，`element`是要等待的元素，如果元素仍然在DOM上返回`False`,否则返回`True`
-
+等待元素不再附在DOM上， ``element`` 是要等待的元素，如果元素仍然在DOM上返回 ``False`` ,否则返回 ``True``
 
 >_class_ selenium.webdriver.support.expected_conditions.text_to_be_present_in_element(_locator, text\__)
 
 预期给定的文本会出现在指定的元素上
 
-
 >_class_ selenium.webdriver.support.expected_conditions.text_to_be_present_in_element_value(_locator, text\__)
 
 预期给定的文本会出现在指定的元素的value上
-
 
 >_class_ selenium.webdriver.support.expected_conditions.title_contains(_title_)
 
 预期标题包含一个指定的字符串（大小写敏感），匹配返回True，否则返回False
 
-
 >_class_ selenium.webdriver.support.expected_conditions.title_is(_title_)
 
 预期标题完全匹配一个字符串
 
-
 >_class_ selenium.webdriver.support.expected_conditions.visibility_of(_element_)
 
-预期已经在DOM上的一个元素是可见的。可见不仅仅表示元素是显示的，而且长宽都要大于0.参数_element_是一个`WebElement`。如果元素可见，则返回这个元素对象
-
+预期已经在DOM上的一个元素是可见的。可见不仅仅表示元素是显示的，而且长宽都要大于0.参数_element_是一个 ``WebElement`` 。如果元素可见，则返回这个元素对象
 
 >_class_ selenium.webdriver.support.expected_conditions.visibility_of_element_located(_locator_)
 
 和`visibility_of`类似，不同的是通过一个定位器来定位元素。如果元素被定位到并且可见，则返回这个元素对象
-
-
-
-
-
-
-
-
-
-
-
-

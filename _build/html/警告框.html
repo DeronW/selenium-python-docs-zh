@@ -25,6 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+    <link rel="next" title="特殊字符" href="特殊字符.html" />
+    <link rel="prev" title="行为链" href="行为链.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -41,43 +43,45 @@
             
   <div class="section" id="id1">
 <h1>警告框<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<p>&gt;class selenium.webdriver.common.alert.Alert(driver)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">selenium</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">alert</span><span class="o">.</span><span class="n">Alert</span><span class="p">(</span><span class="n">driver</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>允许对警告框进行操作</p>
 <p>使用这个类和警告提醒框进行交互，这个类包含了 忽略、接受、输入 以及从提示框内获取文本的方法</p>
-<p>接受和忽略弹框：
-<code class="docutils literal"><span class="pre">`python</span>
-<span class="pre">Alert(driver).accept()</span>
-<span class="pre">Alert(driver).dismiss()</span>
-<span class="pre">`</span></code></p>
-<p>prompt里输入字符:
-<code class="docutils literal"><span class="pre">`python</span>
-<span class="pre">name_prompt</span> <span class="pre">=</span> <span class="pre">Alert(driver)</span>
-<span class="pre">name_prompt.send_keys(&quot;Willian</span> <span class="pre">Shakephere&quot;)</span>
-<span class="pre">name_prompt.accept()</span>
-<span class="pre">`</span></code></p>
-<p>读取prompt的提示字符：
-<code class="docutils literal"><span class="pre">`python</span>
-<span class="pre">alert_text</span> <span class="pre">=</span> <span class="pre">Alert(driver).text</span>
-<span class="pre">self.assertEqual(&quot;Do</span> <span class="pre">you</span> <span class="pre">wish</span> <span class="pre">to</span> <span class="pre">quit?&quot;，alert_text)</span>
-<span class="pre">`</span></code></p>
-<p>&gt;accept()</p>
-<p>确认提示框，用法：
-<code class="docutils literal"><span class="pre">`python</span>
-<span class="pre">Alert(driver).accept()</span> <span class="pre">#Confirm</span> <span class="pre">a</span> <span class="pre">alert</span> <span class="pre">dialog</span>
-<span class="pre">`</span></code></p>
-<p>&gt;authenticate(username,password)</p>
-<p>向一个认证的对话框发送用户名和密码，会自动点击确认：
-<code class="docutils literal"><span class="pre">`python</span>
-<span class="pre">driver.switch_to.alert.authenticate('cheese','secretGouda')</span>
-<span class="pre">`</span></code>
-参数：
+<p>接受和忽略弹框：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Alert</span><span class="p">(</span><span class="n">driver</span><span class="p">)</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+<span class="n">Alert</span><span class="p">(</span><span class="n">driver</span><span class="p">)</span><span class="o">.</span><span class="n">dismiss</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>prompt里输入字符:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">name_prompt</span> <span class="o">=</span> <span class="n">Alert</span><span class="p">(</span><span class="n">driver</span><span class="p">)</span>
+<span class="n">name_prompt</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;Willian Shakephere&quot;</span><span class="p">)</span>
+<span class="n">name_prompt</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>读取prompt的提示字符：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>alert_text = Alert(driver).text
+self.assertEqual(&quot;Do you wish to quit?&quot;，alert_text)
+</pre></div>
+</div>
+<p>accept()</p>
+<p>确认提示框，用法：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Alert</span><span class="p">(</span><span class="n">driver</span><span class="p">)</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span> <span class="c1">#Confirm a alert dialog</span>
+</pre></div>
+</div>
+<p>authenticate(username,password)</p>
+<p>向一个认证的对话框发送用户名和密码，会自动点击确认：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">alert</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="s1">&#39;cheese&#39;</span><span class="p">,</span><span class="s1">&#39;secretGouda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>参数：
 * username:username区域要填写的字符串
 * password:password区域要填写的字符串</p>
-<p>&gt;dismiss()</p>
+<p>dismiss()</p>
 <p>忽略提示框</p>
-<p>&gt;send_keys(KeysToSend)</p>
+<p>send_keys(KeysToSend)</p>
 <p>向对话框输入字符</p>
-<p>&gt;text</p>
+<p>text</p>
 <p>提示框的文本</p>
 </div>
 
@@ -90,6 +94,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="行为链.html" title="上一章">行为链</a></li>
+      <li>Next: <a href="特殊字符.html" title="下一章">特殊字符</a></li>
   </ul></li>
 </ul>
 </div>
