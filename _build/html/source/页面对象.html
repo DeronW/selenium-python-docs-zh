@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>页面对象 &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+    <link rel="next" title="异常" href="异常.html" />
+    <link rel="prev" title="异步" href="异步.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>页面对象<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>这章是对 页面对象设计模型的特别指导。一个页面对象代表了你要测试的用户接口交互的区域。</p>
+<p>使用页面对象模型的好处：</p>
+<ul class="simple">
+<li>可以写出能在多个测试案例里复用的代码</li>
+<li>减少重复代码</li>
+<li>如果用户接口更改，只需要在一个地方做相应修改即可</li>
+</ul>
+<div class="section" id="id2">
+<h2>测试案例<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>下面这个测试案例测试了在`python.org`网页上搜索一个单词并确认有相应的搜索结果：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">import</span> <span class="nn">page</span>
+
+<span class="k">class</span> <span class="nc">PythonOrgSearch</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A sample test class to show how page object works&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.python.org&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">test_search_in_python_org</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Tests python.org search feature. Searches for the word &quot;pycon&quot; then verified that some results show up.</span>
+<span class="sd">                Note that it does not look for any particular text in search results page. This test verifies that</span>
+<span class="sd">                the results were not empty.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+
+                <span class="c1">#Load the main page. In this case the home page of Python.org.</span>
+                <span class="n">main_page</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">MainPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">)</span>
+                <span class="c1">#Checks if the word &quot;Python&quot; is in title</span>
+                <span class="k">assert</span> <span class="n">main_page</span><span class="o">.</span><span class="n">is_title_matches</span><span class="p">(),</span> <span class="s2">&quot;python.org title doesn&#39;t match.&quot;</span>
+                <span class="c1">#Sets the text of search textbox to &quot;pycon&quot;</span>
+                <span class="n">main_page</span><span class="o">.</span><span class="n">search_text_element</span> <span class="o">=</span> <span class="s2">&quot;pycon&quot;</span>
+                <span class="n">main_page</span><span class="o">.</span><span class="n">click_go_button</span><span class="p">()</span>
+                <span class="n">search_results_page</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">SearchResultsPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">)</span>
+                <span class="c1">#Verifies that the results page is not empty</span>
+                        <span class="k">assert</span> <span class="n">search_results_page</span><span class="o">.</span><span class="n">is_results_found</span><span class="p">(),</span> <span class="s2">&quot;No results found.&quot;</span>
+
+        <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>页面对象类<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>页面对象模型旨在给每一个Web页面创造一个对象。
+运用这个技术我们可以在测试代码和技术实现之间创建一个分离层，<code class="docutils literal"><span class="pre">page.py</span></code> 会是这样的：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">element</span> <span class="k">import</span> <span class="n">BasePageElement</span>
+<span class="kn">from</span> <span class="nn">locators</span> <span class="k">import</span> <span class="n">MainPageLocators</span>
+
+<span class="k">class</span> <span class="nc">SearchTextElement</span><span class="p">(</span><span class="n">BasePageElement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This class gets the search text from the specified locator&quot;&quot;&quot;</span>
+
+        <span class="c1">#The locator for search box where search string is entered</span>
+        <span class="n">locator</span> <span class="o">=</span> <span class="s1">&#39;q&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">BasePage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Base class to initialize the base page that will be called from all pages&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">driver</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">driver</span>
+
+
+<span class="k">class</span> <span class="nc">MainPage</span><span class="p">(</span><span class="n">BasePage</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Home page action methods come here. I.e. Python.org&quot;&quot;&quot;</span>
+
+        <span class="c1">#Declares a variable that will contain the retrieved text</span>
+        <span class="n">search_text_element</span> <span class="o">=</span> <span class="n">SearchTextElement</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">is_title_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot;Verifies that the hardcoded text &quot;Python&quot; appears in page title&quot;&quot;&quot;</span>
+                <span class="k">return</span> <span class="s2">&quot;Python&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">title</span>
+
+        <span class="k">def</span> <span class="nf">click_go_button</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot;Triggers the search&quot;&quot;&quot;</span>
+                <span class="n">element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="o">*</span><span class="n">MainPageLocators</span><span class="o">.</span><span class="n">GO_BUTTON</span><span class="p">)</span>
+                <span class="n">element</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">SearchResultsPage</span><span class="p">(</span><span class="n">BasePage</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Search results page action methods come here&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">is_results_found</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="c1"># Probably should search for this text in the specific page</span>
+                <span class="c1"># element, but as for now it works fine</span>
+                <span class="k">return</span> <span class="s2">&quot;No results found.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>页面元素<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">element.py</span></code> 类大致是这样的：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="k">import</span> <span class="n">WebDriverWait</span>
+
+<span class="k">class</span> <span class="nc">BasePageElement</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Base page class that is initialized on every page object class.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot;Sets the text to the value supplied&quot;&quot;&quot;</span>
+                <span class="n">driver</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">driver</span>
+                <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
+                        <span class="k">lambda</span> <span class="n">driver</span><span class="p">:</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="p">))</span>
+                <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot;Gets the text of the specified object&quot;&quot;&quot;</span>
+                <span class="n">driver</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">driver</span>
+                <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
+                        <span class="k">lambda</span> <span class="n">driver</span><span class="p">:</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="p">))</span>
+                <span class="n">element</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">element</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>定位器<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>One of the practices is to separate the locator strings from the place where they are being used.In this example, locators of the same page belong to same class.</p>
+<p>The locators.py will look like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="k">import</span> <span class="n">By</span>
+
+<span class="k">class</span> <span class="nc">MainPageLocators</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A class for main page locators. All main page locators should come here&quot;&quot;&quot;</span>
+        <span class="n">GO_BUTTON</span> <span class="o">=</span> <span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s1">&#39;submit&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SearchResultsPageLocators</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A class for search results locators. All search results locators should come here&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">页面对象</a><ul>
+<li><a class="reference internal" href="#id2">测试案例</a></li>
+<li><a class="reference internal" href="#id3">页面对象类</a></li>
+<li><a class="reference internal" href="#id4">页面元素</a></li>
+<li><a class="reference internal" href="#id5">定位器</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="异步.html" title="上一章">异步</a></li>
+      <li>Next: <a href="异常.html" title="下一章">异常</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/页面对象.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/source/页面对象.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

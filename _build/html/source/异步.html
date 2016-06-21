@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>异步 &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+    <link rel="next" title="页面对象" href="页面对象.html" />
+    <link rel="prev" title="元素定位" href="元素定位.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>异步<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>现在很多Web应用都在使用AJAX技术。浏览器载入一个页面时，页面内的元素可能是在不同的时间载入的，这会加大定位元素的困难程度，
+因为元素不在DOM里，会抛出 <code class="docutils literal"><span class="pre">ElementNotVisibleException``异常，使用</span> <span class="pre">``waits</span></code>，我们就可以解决这个问题。
+Waiting给(页面)动作的执行提供了一些时间间隔-通常是元素定位或者其他对元素的操作。</p>
+<p>Selenium WebDriver提供了两类 <code class="docutils literal"><span class="pre">waits</span></code>- 隐式和显式。显式的 <code class="docutils literal"><span class="pre">waits</span></code> 会让WebDriver在更深一步的执行前等待一个确定的条件触发，
+隐式的 <code class="docutils literal"><span class="pre">waits</span></code> 则会让WebDriver试图定位元素的时候对DOM进行指定次数的轮询。</p>
+<div class="section" id="waits">
+<h2>显式Waits<a class="headerlink" href="#waits" title="永久链接至标题">¶</a></h2>
+<p>显式的 <code class="docutils literal"><span class="pre">waits</span></code> 等待一个确定的条件触发然后才进行更深一步的执行。
+最糟糕的的做法是 <code class="docutils literal"><span class="pre">time.sleep()</span></code>，这指定的条件是等待一个指定的时间段。
+这里提供一些便利的方法让你编写的代码只等待需要的时间，<code class="docutils literal"><span class="pre">WebDriverWait</span></code> 结合 <code class="docutils literal"><span class="pre">ExpectedCondition</span></code> 是一种实现的方法：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="k">import</span> <span class="n">By</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="k">import</span> <span class="n">WebDriverWait</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="k">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://somedomain/url_that_delay_loading&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
+                <span class="n">EC</span><span class="o">.</span><span class="n">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span><span class="s2">&quot;myDynamicElement&quot;</span><span class="p">))</span>
+        <span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+        <span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这段代码会等待10秒，如果10秒内找到元素则立即返回，否则会抛出 <code class="docutils literal"><span class="pre">TimeoutException</span></code> 异常，
+WebDriverWait默认每500毫秒调用一下 <code class="docutils literal"><span class="pre">ExpectedCondition``直到它返回成功为止。</span>
+<span class="pre">``ExpectedCondition</span></code> 类型是布尔的，成功的返回值就是true,其他类型的 <code class="docutils literal"><span class="pre">ExpectedCondition</span></code> 成功的返回值就是 <code class="docutils literal"><span class="pre">not</span> <span class="pre">null</span></code></p>
+</div>
+<div class="section" id="expected-conditions">
+<h2>Expected Conditions<a class="headerlink" href="#expected-conditions" title="永久链接至标题">¶</a></h2>
+<p>自动化网页操作时，有许多频繁使用到的通用条件。下面列出的是每一个条件的实现。Selenium + Python 提供了许多方便的方法，因此你不需要自己编写`expected_condition`的类，或者创建你自己的通用包。</p>
+<ul class="simple">
+<li>title_is</li>
+<li>title_contains</li>
+<li>presence_of_element_located</li>
+<li>visibility_of_element_located</li>
+<li>visibility_of</li>
+<li>presence_of_all_elements_located</li>
+<li>text_to_be_present_in_element</li>
+<li>text_to_be_present_in_element_value</li>
+<li>frame_to_be_available_and_switch_to_it</li>
+<li>invisibility_of_element_located</li>
+<li>element_to_be_clickable - 元素展示并且可用</li>
+<li>staleness_of</li>
+<li>element_to_be_selected</li>
+<li>element_located_to_be_selected</li>
+<li>element_selection_state_to_be</li>
+<li>element_located_selection_state_to_be</li>
+<li>alert_is_present</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="k">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
+
+<span class="n">wait</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">element</span> <span class="o">=</span> <span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">element_to_be_clickable</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span><span class="s1">&#39;someid&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">expected_conditions</span></code> 模块包含了一系列预定义的条件来和WebDriverWait使用</p>
+</div>
+<div class="section" id="id2">
+<h2>隐式Waits<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>当我们要找一个或者一些不能立即可用的元素的时候，隐式 <code class="docutils literal"><span class="pre">waits</span></code> 会告诉WebDriver轮询DOM指定的次数，默认设置是0次。
+一旦设定，WebDriver对象实例的整个生命周期的隐式调用也就设定好了。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># seconds</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://somedomain/url_that_delays_loading&quot;</span><span class="p">)</span>
+<span class="n">myDynamicElement</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;myDynamicElement&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>显示waits:</p>
+<ul class="simple">
+<li>明确的行为表现</li>
+<li>在本地的selenium运行(你选择的编程语言)</li>
+<li>可以在任何你能想到的条件下工作</li>
+<li>返回成功或者超时</li>
+<li>可以定义元素的缺失为条件</li>
+<li>可以定制重试间隔，可以忽略某些异常</li>
+</ul>
+<p>隐式waits:</p>
+<ul class="simple">
+<li>不明确的行为表现，同一个问题依赖于不同的操作系统，不同的浏览器，不同的selenium版本会有各种不同的表现</li>
+<li>在远程的selenium上运行(控制浏览器的那部分).</li>
+<li>只能在寻找元素的函数上工作</li>
+<li>返回找到元素或者（在超时以后）没有找到</li>
+<li>如果检查元素缺失那么总是会等待到超时</li>
+<li>除了时间啥都不能指定</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">异步</a><ul>
+<li><a class="reference internal" href="#waits">显式Waits</a></li>
+<li><a class="reference internal" href="#expected-conditions">Expected Conditions</a></li>
+<li><a class="reference internal" href="#id2">隐式Waits</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="元素定位.html" title="上一章">元素定位</a></li>
+      <li>Next: <a href="页面对象.html" title="下一章">页面对象</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/异步.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/source/异步.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

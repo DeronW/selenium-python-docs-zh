@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>开始 &mdash; selenium-python-docs-zh 2.53.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.53.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="selenium-python-docs-zh 2.53.0 文档" href="index.html" />
+    <link rel="next" title="导航" href="导航.html" />
+    <link rel="prev" title="安装" href="installation.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="getting-started">
+<span id="id1"></span><h1>开始<a class="headerlink" href="#getting-started" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>简单用法<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>如果你已经安装好Python 和 Selenium，可以这样开始使用</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.python.org&quot;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="s2">&quot;Python&quot;</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span>
+<span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;pycon&quot;</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+<span class="k">assert</span> <span class="s2">&quot;No results found.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>把上面的脚本保存到一个文件中(比如：python_org_search.py)，然后就可以这样运行它了</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python_org_search</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>运行时需要已经安装过 selenium 库了</p>
+</div>
+<div class="section" id="id3">
+<h2>用法解析<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p><cite>selenium.webdriver</cite> 模块提供了所有 WebDriver的实现，现在支持的WebDriver的实现有 Firefox,Ie,Chrome 和远程浏览器.
+<cite>Keys</cite> 类提供了键盘的按键编码（比如回车,ALT,F1等等）</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+</pre></div>
+</div>
+<p>然后我们创建一个Firefox的实例</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><cite>driver.get</cite> 方法会打开给定的URL的页面，WebDriver会等待页面完全加载完(就是 &#8220;onload&#8221; 函数触发了),
+再开始执行你的测试脚本.</p>
+<p>但是如果你的页面用了太多的AJAX，那么这个机制就没什么卵用了，因为它不知道页面到底是什么时候加载完。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.python.org&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>下面代码是断言网页标题是否包含 &#8220;Python&#8221; 关键字</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="s2">&quot;Python&quot;</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span>
+</pre></div>
+</div>
+<p>WebDrive提供了一系统类似于 <cite>find_element_by_*</cite> 的方法来寻找页面元素，
+例如，我们利用 <cite>find_element_by_name</cite> 方法，通过元素的 <cite>name</cite> 属性来定位一个文本输入框元素.</p>
+<p>更多查找元素的文档参考 <span class="xref std std-ref">locating-elements</span></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>接着我们输入了一些字符，类似于用键盘直接输入. 特殊的键盘符我们可以用 <cite>Key</cite> 输入,
+需要导入 <cite>selenium.webdriver.common.keys</cite> 包.
+安全起见, 输入字符前清楚掉原来的内容, 以免产生错误结果.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elem</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;pycon&quot;</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>提交页面之后我们应该确认一下是否有返回，为了确定有返回值，我们在这里下一个断言:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="s2">&quot;No results found.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+</pre></div>
+</div>
+<p>最后浏览器窗口被关闭了，你也可以调用 <cite>quit</cite> 而不是 <cite>close</cite> ，区别在于 <cite>quit</cite> 会退出整个浏览器，
+而 <cite>close</cite> 只会关闭一个标签，但是如果浏览器只有一个标签，大部分浏览器的行为是相同的，就是关闭整个浏览器。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="selenium">
+<h2>使用Selenium编写测试代码<a class="headerlink" href="#selenium" title="永久链接至标题">¶</a></h2>
+<p>Selenium经常被用来写测试用例，它本身的包不提供测试的工具或者框架。
+我们可以用Python的单元测试模块来编写测试用例. 或者使用 <cite>py.test</cite> , <cite>nose</cite> .</p>
+<p>在本章节我们使用 <cite>unittest</cite> 做为测试框架，下面是一个用 <cite>unittest</cite> 模块改进后的例子，
+是对 <cite>python.org</cite> 函数搜索功能的测试:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+
+<span class="k">class</span> <span class="nc">PythonOrgSearch</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">test_search_in_python_org</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="n">driver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span>
+                <span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.python.org&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+                <span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">)</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;pycon&quot;</span><span class="p">)</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="s2">&quot;No results found.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+
+
+        <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>你可以在shell里运行这个测试用例</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">test_python_org_search</span><span class="o">.</span><span class="n">py</span>
+<span class="o">.</span>
+<span class="o">----------------------------------------------------------------------</span>
+<span class="n">Ran</span> <span class="mi">1</span> <span class="n">test</span> <span class="ow">in</span> <span class="mf">15.566</span><span class="n">s</span>
+
+<span class="n">OK</span>
+</pre></div>
+</div>
+<p>上面的结果表明我们的测试用例成功执行了</p>
+</div>
+<div class="section" id="id4">
+<h2>测试代码分析<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>脚本的开头我们引入了所有需要的模块, <a class="reference external" href="http://docs.python.org/library/unittest.html">unittest</a> 模块是
+Python内置的单元测试模块, 就好像 Java里面的JUnit. unittest 模块实现了WebDriver的全部测试接口的功能.
+目前支持的 WebDriver 包括 Firefox, Chrome, Ie 和 远程调试. <cite>Keys</cite> 类提供了键盘模拟输入.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+</pre></div>
+</div>
+<p>测试用例类继承了 <cite>unittest.TestCase</cite> 类，<cite>TestCase</cite> 类的子类都被认为是测试用例</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PythonOrgSearch</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>测试用例初始化时会首先调用 <cite>setUp</cite> 方法.</p>
+<p>下面的例子中我们创建了一个 <code class="docutils literal"><span class="pre">Firefox</span> <span class="pre">WebDriver</span></code> 实例</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>下面的代码是一个测试某个功能点错的方法, 所有测试方法的名称都必须以 <cite>test</cite> 字符串开头.
+方法的第一行新建了一个变量 <cite>driver</cite> 引用了 <cite>setUp</cite> 方法中创建的driver对象</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_search_in_python_org</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">driver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span>
+</pre></div>
+</div>
+<p><cite>driver.get</cite> 方法会打开给定的URL的页面</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.python.org&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>下一行是个断言，确认页面标题里是否有 Python 这个单词</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>查找元素</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>输入文字</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;pycon&quot;</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>确认是否打开了新页面</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="s2">&quot;No results found.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+</pre></div>
+</div>
+<p>测试类的所有测试方法执行结束后, 会调用 <cite>tearDown</cite> 方法.
+这个方法适合用来清理之前测试方法留下的残留数据.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>最后一行代码是Python的固定用法, 程序由这里开始执行</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="selenium-remote-webdriver">
+<span id="id5"></span><h2>使用Selenium 的 remote WebDriver<a class="headerlink" href="#selenium-remote-webdriver" title="永久链接至标题">¶</a></h2>
+<p>要使用remote WebDriver，你先要运行Selenium server,用下面这个命令:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">selenium</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">standalone</span><span class="o">-</span><span class="mf">2.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p>运行Selenium server时，你可以看到类似这样一条信息:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">15</span><span class="p">:</span><span class="mi">43</span><span class="p">:</span><span class="mf">07.541</span> <span class="n">INFO</span> <span class="o">-</span> <span class="n">RemoteWebDriver</span> <span class="n">instances</span> <span class="n">should</span> <span class="n">connect</span> <span class="n">to</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">4444</span><span class="o">/</span><span class="n">wd</span><span class="o">/</span><span class="n">hub</span>
+</pre></div>
+</div>
+<p>意思是说你可以用这个URL连接到 remote WebDriver,下面是一些例子</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.desired_capabilities</span> <span class="k">import</span> <span class="n">DesiredCapabilities</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">&#39;http://127.0.0.1:4444/wd/hub&#39;</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">CHROME</span><span class="p">)</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">&#39;http://127.0.0.1:4444/wd/hub&#39;</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">OPERA</span><span class="p">)</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">&#39;http://127.0.0.1:4444/wd/hub&#39;</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">HTMLUNITWITHJS</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>desired_capabilities是一个字典参数，如果你不使用默认的参数，你可以自己指定</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">&#39;http://127.0.0.1:4444/wd/hub&#39;</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;browserName&#39;</span><span class="p">:</span> <span class="s1">&#39;htmlunit&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span>     <span class="s1">&#39;javascriptEnabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">开始</a><ul>
+<li><a class="reference internal" href="#id2">简单用法</a></li>
+<li><a class="reference internal" href="#id3">用法解析</a></li>
+<li><a class="reference internal" href="#selenium">使用Selenium编写测试代码</a></li>
+<li><a class="reference internal" href="#id4">测试代码分析</a></li>
+<li><a class="reference internal" href="#selenium-remote-webdriver">使用Selenium 的 remote WebDriver</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="installation.html" title="上一章">安装</a></li>
+      <li>Next: <a href="导航.html" title="下一章">导航</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/getting-started.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="转向" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, delong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/source/getting-started.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
