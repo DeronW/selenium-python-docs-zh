@@ -10,7 +10,7 @@ Selenium 2.53.0 文档
 
 	installation
 	getting-started
-	导航
+	navigating
 	元素定位
 	异步
 	页面对象
