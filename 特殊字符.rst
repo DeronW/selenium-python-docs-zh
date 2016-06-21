@@ -1,7 +1,7 @@
 特殊字符
 ==========
 
->class selenium.webdriver.common.keys.Keys
+> class selenium.webdriver.common.keys.Keys
 
 下面是一些特殊字符的代码：
 >ADD = u'\ue025'

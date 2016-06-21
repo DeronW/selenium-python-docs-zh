@@ -1,6 +1,7 @@
+.. _page-objects:
+
 页面对象
 =========
-
 
 
 这章是对 页面对象设计模型的特别指导。一个页面对象代表了你要测试的用户接口交互的区域。
@@ -11,10 +12,10 @@
 * 减少重复代码
 * 如果用户接口更改，只需要在一个地方做相应修改即可
 
-测试案例
+测试用例
 -------------
 
-下面这个测试案例测试了在`python.org`网页上搜索一个单词并确认有相应的搜索结果：
+下面这个测试用例 测试了在 `python.org` 网页上搜索一个单词并确认有相应的搜索结果
 
 ::
 
@@ -54,11 +55,11 @@
 		unittest.main()
 
 
-页面对象类
+页面对象
 ---------------
 
 页面对象模型旨在给每一个Web页面创造一个对象。
-运用这个技术我们可以在测试代码和技术实现之间创建一个分离层，``page.py`` 会是这样的：
+运用这个技术我们可以在测试代码和技术实现之间创建一个分离层，``page.py`` 会是这样的
 
 ::
 
@@ -135,12 +136,13 @@
 定位器
 -----------
 
-One of the practices is to separate the locator strings from the place where they are being used.In this example, locators of the same page belong to same class.
+实践中, 应该把定位器的字符串根据他们的使用位置区分开.
+下面例子中, 同一个页面的定位器属于同一个类.
 
-The locators.py will look like this:
+locators.py 文件的内容是
 
 ::
-	
+
 	from selenium.webdriver.common.by import By
 
 	class MainPageLocators(object):
@@ -150,4 +152,3 @@ The locators.py will look like this:
 	class SearchResultsPageLocators(object):
 		"""A class for search results locators. All search results locators should come here"""
 		pass
-	

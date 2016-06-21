@@ -1,15 +1,18 @@
+.. _api:
+
 WebDriver API
 ================
 
+.. note::
 
-**注意** ，这不是官方文档，官方的API文档在 http://selenium.googlecode.com/svn/trunk/docs/api/py/index.html
+	这不是官方文档，官方的API文档在 `这里 <https://seleniumhq.github.io/selenium/docs/api/py/api.html>`_.
 
 这一章涵盖了所有的Selenium WebDriver接口
 
 推荐的引入风格
 ------------------
 
-这一章里面API的定义已经展示了类的绝对位置，不过推荐使用下面引入风格：
+这一章里面API的定义已经展示了类的绝对位置，不过推荐使用下面引入风格
 
 ::
 
@@ -32,13 +35,13 @@ WebDriver API
 	webdriver.TouchActions
 	webdriver.Proxy
 
-特殊的键盘类（`Keys`）可以这样引入：
+特殊的键盘类（``Keys``）可以这样引入：
 
 ::
 
 	from selenium.webdriver.common.keys import Keys
 
-引入`exception`类（把`TheNameOfTheExceptionClass`替换为你真正需要的类名）：
+引入 ``exception`` 类（把 `TheNameOfTheExceptionClass` 替换为你真正需要的类名）
 
 ::
 
@@ -49,22 +52,23 @@ API的常规使用
 
 一些属性(或者方法)是可以调用的，另外一些不可以调用，可以调用的属性是以圆括号结尾的。
 
-下面是属性的一个例子：
-* current_url
-当前载入页面的URL
+下面是属性的一个例子
 
-使用：
+  - current_url
 
-::
+    当前载入页面的URL.
 
-	driver.current_url
+    用法::
+
+      driver.current_url
+
 
 下面是方法的一个例子
-* close()
 
-关闭当前窗口
-使用：
+  - close()
 
-::
+    关闭当前窗口.
 
-	driver.close()
+	使用::
+
+      driver.close()
